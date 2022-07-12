@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json.schemastore.org/package.json",
+  "name": "symbol-art-parser",
+  "version": "0.0.1",
+  "description": "Phantasy Star Online 2 New Genesis Symbol Art file (*.sar) parser class",
+  "keywords": [
+    "Symbol Art",
+    "pso2",
+    "pso2ngs",
+    "ngs",
+    "sa"
+  ],
+  "license": "MIT",
+  "author": {
+    "name": "Logue",
+    "email": "logue@hotmail.co.jp",
+    "url": "https://logue.dev/"
+  },
+  "homepage": "https://github.com/logue/symbol-art-parser",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:logue/symbol-art-parser.git"
+  },
+  "bugs": {
+    "url": "https://github.com/logue/symbol-art-parser.js/issues"
+  },
+  "directories": {
+    "doc": "docs"
+  },
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/index.umd.js",
+  "module": "./dist/index.es.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.es.js",
+      "require": "./dist/index.umd.js"
+    }
+  },
+  "types": "./dist/index.d.ts",
+  "engines": {
+    "node": ">=16.16.0",
+    "yarn": ">=1.22.4"
+  },
+  "packageManager": "yarn@3.2.1",
+  "sideEffects": false,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build && tsc --declaration --emitDeclarationOnly",
+    "build:clean": "rimraf dist",
+    "lint": "eslint . --fix --cache --cache-location ./node_modules/.vite/vite-plugin-eslint && prettier . --write",
+    "prepare": "husky install"
+  },
+  "devDependencies": {
+    "@types/node": "^18.0.3",
+    "@typescript-eslint/eslint-plugin": "^5.30.6",
+    "@typescript-eslint/parser": "^5.30.6",
+    "eslint": "^8.19.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-import-resolver-alias": "^1.1.2",
+    "eslint-import-resolver-typescript": "^3.2.5",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-jsdoc": "^39.3.3",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-tsdoc": "^0.2.16",
+    "husky": "^8.0.1",
+    "lint-staged": "^13.0.3",
+    "prettier": "^2.7.1",
+    "rimraf": "^3.0.2",
+    "typescript": "^4.7.4",
+    "vite": "^2.9.14",
+    "vite-plugin-banner": "^0.3.0",
+    "vite-plugin-checker": "^0.4.8"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.vue": "vue-tsc --noEmit",
+    "*.{js,ts,json,yml,yaml,vue,htm,html}": "eslint --fix --cache --cache-location ./node_modules/.vite/vite-plugin-eslint",
+    "*.{css,sass,scss,vue,htm,html}": "stylelint --fix --cache --cache-location ./node_modules/.vite/vite-plugin-stylelint",
+    "*": "prettier -w -u"
+  },
+  "resolutions": {
+    "prettier": "^2.7.1"
+  }
+}

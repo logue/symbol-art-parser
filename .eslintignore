@@ -1,0 +1,5 @@
+.husky/
+.vscode/
+.yarn/
+docs/*.js
+dist/

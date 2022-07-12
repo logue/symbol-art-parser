@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" class="h-100">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="" />
+    <meta name="author" content="Logue" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
+      integrity="sha256-+xdjtZ+fV2QpS1r5+lJQg1rmCCgv5vLyITpZUqrPH78="
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css"
+      integrity="sha256-YW7U7x59rUPZ3DWzQKbalM/9j2Cp8wapJVQPRxL4w1k="
+      crossorigin="anonymous"
+    />
+    <title>Symbol art test</title>
+  </head>
+  <body class="d-flex flex-column h-100">
+    <header>
+      <!-- Fixed navbar -->
+      <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">Synbol Art Test</a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarCollapse"
+            aria-controls="navbarCollapse"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav me-auto mb-2 mb-md-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Link</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link disabled">Disabled</a>
+              </li>
+            </ul>
+            <form class="d-flex" role="search">
+              <input
+                class="form-control me-2"
+                type="search"
+                placeholder="Search"
+                aria-label="Search"
+              />
+              <button class="btn btn-outline-success" type="submit">
+                Search
+              </button>
+            </form>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Begin page content -->
+    <main class="flex-shrink-0">
+      <div class="container">
+        <h1 class="mt-5">Symbol Art Test</h1>
+        <div class="mb-3">
+          <label for="sarFile" class="form-label">Select *.sar file.</label>
+          <input class="form-control" type="file" id="sarFile" accept="*.sar" />
+        </div>
+        <h2>Dumped data</h2>
+        <pre id="output"></pre>
+      </div>
+    </main>
+
+    <footer class="footer mt-auto py-3 bg-light">
+      <div class="container">
+        <span class="text-muted">&copy; 2022 Logue</span>
+      </div>
+    </footer>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha256-JRXjfu4x9e89ZZsh3MhNxupzKwaHLaUQeLW1Jt40wME="
+      crossorigin="anonymous"
+    ></script>
+
+    <script type="module">
+      import SymbolArt from '/src';
+
+      const fileInput = document.getElementById('sarFile');
+
+      document.addEventListener('DOMContentLoaded', event => {
+        console.log('Document loaded');
+        // File selector
+
+        fileInput.addEventListener('change', event => {
+          event.preventDefault();
+          const reader = new FileReader();
+          reader.readAsArrayBuffer(fileInput.files[0]);
+
+          reader.onload = e => {
+            console.log('loaded', fileInput.files[0]);
+            const data = new Uint8Array(e.target.result);
+
+            const sar = new SymbolArt(data);
+
+            console.log(sar);
+            document.getElementById('output').innerHTML = JSON.stringify(
+              sar.parse(),
+              null,
+              2
+            );
+            fileInput.value = '';
+          };
+        });
+      });
+    </script>
+  </body>
+</html>
