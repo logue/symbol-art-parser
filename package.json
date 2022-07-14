@@ -2,13 +2,14 @@
   "$schema": "https://json.schemastore.org/package.json",
   "name": "symbol-art-parser",
   "version": "0.0.1",
-  "description": "Phantasy Star Online 2 New Genesis Symbol Art file (*.sar) parser class",
+  "description": "Phantasy Star Online 2 New Genesis Symbol Art file (*.sar) parser class.",
   "keywords": [
     "Symbol Art",
     "pso2",
     "pso2ngs",
     "ngs",
-    "sa"
+    "sa",
+    "phantasy-star-online2"
   ],
   "license": "MIT",
   "author": {
@@ -53,7 +54,7 @@
     "prepare": "husky install"
   },
   "devDependencies": {
-    "@types/node": "^18.0.3",
+    "@types/node": "^18.0.4",
     "@typescript-eslint/eslint-plugin": "^5.30.6",
     "@typescript-eslint/parser": "^5.30.6",
     "eslint": "^8.19.0",
@@ -70,9 +71,9 @@
     "prettier": "^2.7.1",
     "rimraf": "^3.0.2",
     "typescript": "^4.7.4",
-    "vite": "^2.9.14",
+    "vite": "^3.0.0",
     "vite-plugin-banner": "^0.3.0",
-    "vite-plugin-checker": "^0.4.8"
+    "vite-plugin-checker": "^0.4.9"
   },
   "husky": {
     "hooks": {

@@ -1,6 +1,12 @@
 import { P_TABLE, S_TABLE } from './BlowfishConstants';
 
-/** blowfish context */
+/**
+ * Blowfish Cryptor class
+ *
+ * TypeScript version by Logue.
+ * Original version written by HybridEidolon's saredit
+ * @see https://github.com/HybridEidolon/saredit
+ */
 export default class Blowfish {
   /** P Table */
   private p: Uint32Array;

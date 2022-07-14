@@ -36,29 +36,17 @@
           >
             <span class="navbar-toggler-icon"></span>
           </button>
-          <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav me-auto mb-2 mb-md-0">
+          <div class="collapse navbar-collapse flex-grow-0" id="navbarCollapse">
+            <ul class="navbar-nav">
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Home</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link disabled">Disabled</a>
+                <a
+                  class="nav-link"
+                  href="https://github.com/logue/symbol-art-parser"
+                >
+                  <em class="bi bi-github"></em>
+                </a>
               </li>
             </ul>
-            <form class="d-flex" role="search">
-              <input
-                class="form-control me-2"
-                type="search"
-                placeholder="Search"
-                aria-label="Search"
-              />
-              <button class="btn btn-outline-success" type="submit">
-                Search
-              </button>
-            </form>
           </div>
         </div>
       </nav>
@@ -92,6 +80,7 @@
     <script type="module">
       import SymbolArt from '/src';
 
+      const sar = new SymbolArt();
       const fileInput = document.getElementById('sarFile');
 
       document.addEventListener('DOMContentLoaded', event => {
@@ -100,6 +89,7 @@
 
         fileInput.addEventListener('change', event => {
           event.preventDefault();
+          document.getElementById('output').innerHTML = 'Loading...';
           const reader = new FileReader();
           reader.readAsArrayBuffer(fileInput.files[0]);
 
@@ -107,14 +97,17 @@
             console.log('loaded', fileInput.files[0]);
             const data = new Uint8Array(e.target.result);
 
-            const sar = new SymbolArt(data);
-
-            console.log(sar);
-            document.getElementById('output').innerHTML = JSON.stringify(
-              sar.parse(),
-              null,
-              2
-            );
+            try {
+              sar.load(data);
+              document.getElementById('output').innerHTML = JSON.stringify(
+                sar.json,
+                null,
+                2
+              );
+            } catch (e) {
+              console.error(e);
+              document.getElementById('output').innerHTML = e;
+            }
             fileInput.value = '';
           };
         });

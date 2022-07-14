@@ -1,5 +1,6 @@
 .husky/
 .vscode/
 .yarn/
-docs/*.js
+public/assets
 dist/
+components.d.ts

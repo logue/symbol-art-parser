@@ -1,21 +1,21 @@
 import LayerInterface from './LayerInterface';
 
 export default interface SymbolArtInterface {
-  /** アカウントID */
+  /** Account ID */
   authorId: number;
-  /** シンボルアート名 */
+  /** Symbol art name */
   name: string;
-  /** サイズ */
+  /** Symbol art size */
   size: {
-    /** 高さ */
+    /** Height */
     height: number;
-    /** 幅 */
+    /** Width */
     width: number;
   };
-  /** レイヤー数 */
+  /** Layer count */
   layerCount: number;
-  /** サウンド */
+  /** Effect Sound ID */
   sound: number;
-  /** レイヤー */
+  /** Layers */
   layers: LayerInterface[];
 }
