@@ -88,5 +88,8 @@
   },
   "resolutions": {
     "prettier": "^2.7.1"
+  },
+  "dependencies": {
+    "egoroof-blowfish": "^2.2.2"
   }
 }

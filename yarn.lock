@@ -862,6 +862,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"egoroof-blowfish@npm:^2.2.2":
+  version: 2.2.2
+  resolution: "egoroof-blowfish@npm:2.2.2"
+  checksum: b485ab73a9d93c6523e425593f39e097709c46aeea407abad69faeaa3ee35428ec6c0b5334fe9d7826b348c2622a8ee132725df3529d877778517ab6320a2eae
+  languageName: node
+  linkType: hard
+
 "emoji-regex@npm:^8.0.0":
   version: 8.0.0
   resolution: "emoji-regex@npm:8.0.0"
@@ -3372,6 +3379,7 @@ __metadata:
     "@types/node": ^18.0.4
     "@typescript-eslint/eslint-plugin": ^5.30.6
     "@typescript-eslint/parser": ^5.30.6
+    egoroof-blowfish: ^2.2.2
     eslint: ^8.19.0
     eslint-config-google: ^0.14.0
     eslint-config-prettier: ^8.5.0

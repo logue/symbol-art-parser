@@ -61,6 +61,37 @@
           <input class="form-control" type="file" id="sarFile" accept="*.sar" />
         </div>
         <h2>Dumped data</h2>
+        <table class="table">
+          <caption>Properties</caption>
+          <tbody>
+            <tr>
+              <th scope="row">Author ID</th>
+              <td id="authorId"></td>
+            </tr>
+            <tr>
+              <th scope="row">Name</th>
+              <td id="name"></td>
+            </tr>
+            <tr>
+              <th scope="row">Sound</th>
+              <td><audio id="sound" controls></audio></td>
+            </tr>
+            <tr>
+              <th scope="row">Layer Count</th>
+              <td id="layerCount"></td>
+            </tr>
+          </tbody>
+        </table>
+        <table class="table" id="layers">
+          <caption>Layers</caption>
+          <thead>
+            <th scope="col">Layer</th>
+            <th scope="col">Symbol</th>
+            <th scope="col">Visible</th>
+            <th scope="col">Position</th>
+          </thead>
+          <tbody></tbody>
+        </table>
         <pre id="output"></pre>
       </div>
     </main>
@@ -97,10 +128,12 @@
             console.log('loaded', fileInput.files[0]);
             const data = new Uint8Array(e.target.result);
 
+            let json;
             try {
               sar.load(data);
+              json = sar.json;
               document.getElementById('output').innerHTML = JSON.stringify(
-                sar.json,
+                json,
                 null,
                 2
               );
@@ -108,10 +141,123 @@
               console.error(e);
               document.getElementById('output').innerHTML = e;
             }
-            fileInput.value = '';
+            parseHandler(json);
           };
         });
       });
+
+      function parseHandler(json) {
+        document.getElementById('authorId').innerText = json.authorId;
+        document.getElementById('name').innerText = json.name;
+        document.getElementById('sound').src = `${
+          import.meta.env.BASE_URL
+        }sounds/${json.sound}.flac`;
+        document.getElementById('layerCount').innerText = json.layerCount;
+
+        const tbody = document.querySelector('#layers > tbody');
+        while (tbody.firstChild) {
+          tbody.removeChild(tbody.firstChild);
+        }
+
+        let i = 0;
+        json.layers.forEach(layer => {
+          const row = document.createElement('tr');
+          const no = document.createElement('th');
+          no.innerHTML = i++;
+          no.scope = 'row';
+          row.appendChild(no);
+
+          Object.keys(layer).forEach(key => {
+            const td = document.createElement('td');
+            switch (key) {
+              case 'symbol':
+                const canvas = document.createElement('canvas');
+                canvas.width = 64;
+                canvas.height = 64;
+                canvas.className = 'img-thumbnail bg-seconrary';
+                new MonotoneCanvas({
+                  canvas: canvas,
+                  fileSrc: `${import.meta.env.BASE_URL}symbols/${
+                    layer.symbol
+                  }.webp`,
+                  width: 64,
+                  height: 64,
+                  color: '#' + layer.rgb,
+                });
+                canvas.style.opacity = layer.opacity / 7;
+                td.appendChild(canvas);
+                break;
+              case 'visibility':
+                const visibility = document.createElement('input');
+                visibility.type = 'checkbox';
+                visibility.disabled = 'disabled';
+                visibility.className = 'form-check-input';
+                visibility.checked = layer[key] ? 'checked' : '';
+                td.appendChild(visibility);
+                break;
+              case 'position':
+                td.innerHTML = JSON.stringify(layer[key], null, 2);
+                break;
+            }
+            row.appendChild(td);
+          });
+          tbody.appendChild(row);
+        });
+      }
+
+      class MonotoneCanvas {
+        constructor(opts = {}) {
+          this.canvas = opts.canvas || document.createElement('div');
+          this.fileSrc = opts.fileSrc || '';
+          this.width = isNaN(opts.width) ? 0 : opts.width;
+          this.height = isNaN(opts.height) ? 0 : opts.height;
+          this.color = opts.color || '#000';
+
+          this.init();
+        }
+
+        init() {
+          this.preloadCanvas().then(value => {
+            // canvasのプリロード後に描画
+            this.draw(value);
+          });
+        }
+
+        preloadCanvas() {
+          return new Promise((resolve, reject) => {
+            const canvas = document.createElement('canvas');
+            let img = new Image();
+            img.src = this.fileSrc;
+            img.addEventListener(
+              'load',
+              () => {
+                // 1度canvasに描く
+                const ctx = canvas.getContext('2d');
+                canvas.width = img.naturalWidth;
+                canvas.height = img.naturalHeight;
+                ctx.drawImage(img, 0, 0, img.naturalWidth, img.naturalHeight);
+                resolve(canvas);
+              },
+              false
+            );
+          });
+        }
+
+        draw(preloadCanvas) {
+          const canvas = this.canvas;
+          const ctx = canvas.getContext('2d');
+          canvas.width = this.width;
+          canvas.height = this.height;
+
+          ctx.fillStyle = this.color;
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+          ctx.globalCompositeOperation = 'destination-in';
+
+          // 一度描画したcanvasを再びcanvasに描画する
+          ctx.drawImage(preloadCanvas, 0, 0, canvas.width, canvas.height);
+        }
+      }
     </script>
   </body>
 </html>

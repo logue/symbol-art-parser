@@ -13,7 +13,7 @@ export default interface LayerInterface {
     topRight: LayerPositionInterface;
     bottomRight: LayerPositionInterface;
   };
-  /** Alpha Channel */
+  /** Opacity */
   opacity: number;
   /** Symbol Color */
   color: {
@@ -24,10 +24,12 @@ export default interface LayerInterface {
     /** Blue */
     b: number;
     /** Additional Color bytes for red */
-    r2: number;
+    x: number;
     /** Additional Color bytes for green */
-    g2: number;
+    y: number;
     /** Additional Color bytes for blue */
-    b2: number;
+    z: number;
   };
+  /** Hex Color */
+  rgb: string;
 }

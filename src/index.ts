@@ -120,10 +120,10 @@ export default class SymbolArt {
       uint8arr[pos++] =
         ((layer.visibility ? 0 : 1) << 7) | ((layer.symbol >> 3) & 0x7f);
       // Write condensed 32 bit color X, Y, Z
-      uint8arr[pos++] = ((layer.color.r2 & 0x3) << 6) | layer.color.g2;
+      uint8arr[pos++] = ((layer.color.x & 0x3) << 6) | layer.color.y;
       uint8arr[pos++] =
-        ((layer.color.b2 & 0xf) << 4) | ((layer.color.g2 >> 2) & 0xf);
-      uint8arr[pos++] = (layer.color.b2 >> 4) & 0x3;
+        ((layer.color.z & 0xf) << 4) | ((layer.color.y >> 2) & 0xf);
+      uint8arr[pos++] = (layer.color.z >> 4) & 0x3;
       uint8arr[pos++] = 0;
     }
     // Write Symbol Art name using UTF-16

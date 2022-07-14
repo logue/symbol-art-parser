@@ -98,19 +98,23 @@ export default class SarParser extends AbstractParser {
         schema: this.layerSchema,
         registry: registry,
       });
-      console.log(layer);
       layers.push({
         symbol: layer.props.textureIndex,
         visibility: layer.props.visible,
         position: layer.points,
         opacity: layer.props.transparency,
+        rgb: this.rgb2Hex(
+          layer.props.colorR,
+          layer.props.colorG,
+          layer.props.colorB
+        ),
         color: {
           r: layer.props.colorR,
           g: layer.props.colorG,
           b: layer.props.colorB,
-          r2: layer.props.colorX,
-          g2: layer.props.colorY,
-          b2: layer.props.colorZ,
+          x: layer.props.colorX,
+          y: layer.props.colorY,
+          z: layer.props.colorZ,
         },
       });
     }
@@ -145,5 +149,28 @@ export default class SarParser extends AbstractParser {
       layerCount,
       layers,
     };
+  }
+
+  /**
+   * Get RGB Hex
+   * @param red - Red
+   * @param green - Green
+   * @param blue - Blue
+   * @returns
+   */
+  private rgb2Hex(red: number, green: number, blue: number): string {
+    return `${this.numberToHex(red * 4)}${this.numberToHex(
+      green * 4
+    )}${this.numberToHex(blue * 4)}`;
+  }
+
+  /**
+   * Number to Hex
+   * @param color - number
+   * @returns
+   */
+  private numberToHex(color: number) {
+    const hexadecimal = color.toString(16);
+    return hexadecimal.length === 1 ? '0' + hexadecimal : hexadecimal;
   }
 }
