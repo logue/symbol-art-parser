@@ -31,7 +31,7 @@ const config: UserConfig = {
  *
  * @description ${pkg.description}
  * @author ${pkg.author.name} <${pkg.author.email}>
- * @copyright 2019-2022 By Masashi Yoshikawa All rights reserved.
+ * @copyright 2022 By Masashi Yoshikawa All rights reserved.
  * @license ${pkg.license}
  * @version ${pkg.version}
  * @see {@link ${pkg.homepage}}
@@ -47,16 +47,6 @@ const config: UserConfig = {
       fileName: format => `index.${format}.js`,
     },
     target: 'es2021',
-    // Minify option
-    // https://vitejs.dev/config/#build-minify
-    minify: 'terser',
-    terserOptions: {
-      ecma: 2020,
-      compress: { drop_console: true },
-      mangle: true, // Note `mangle.properties` is `false` by default.
-      module: true,
-      output: { comments: true, beautify: false },
-    },
   },
 };
 

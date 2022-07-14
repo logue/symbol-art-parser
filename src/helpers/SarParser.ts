@@ -119,7 +119,7 @@ export default class SarParser extends AbstractParser {
       });
     }
 
-    const name = [];
+    const name: number[] = [];
     // Read rest of buffer into Symbol Art name
     const startPos = cursor.getPosition();
     for (let i = 0; i < (cursor.getDataView().byteLength - startPos) / 2; i++) {

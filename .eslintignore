@@ -3,4 +3,5 @@
 .yarn/
 public/assets
 dist/
+docs/
 components.d.ts

@@ -201,3 +201,9 @@ export default class SymbolArt {
     return writeCursor.getBuffer().slice(0, writeCursor.getPosition());
   }
 }
+
+// @ts-ignore
+if (!window.SymbolArt) {
+  // @ts-ignore
+  window.SymbolArt = SymbolArt;
+}

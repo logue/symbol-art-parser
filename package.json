@@ -49,8 +49,10 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build && tsc --declaration --emitDeclarationOnly",
+    "build:docs": "vite build --config vite.config.docs.ts",
     "build:clean": "rimraf dist",
     "lint": "eslint . --fix --cache --cache-location ./node_modules/.vite/vite-plugin-eslint && prettier . --write",
+    "preview": "vite preview --config vite.config.docs.ts",
     "prepare": "husky install"
   },
   "devDependencies": {
@@ -88,8 +90,5 @@
   },
   "resolutions": {
     "prettier": "^2.7.1"
-  },
-  "dependencies": {
-    "egoroof-blowfish": "^2.2.2"
   }
 }
