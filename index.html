@@ -54,52 +54,63 @@
 
     <!-- Begin page content -->
     <main class="flex-shrink-0">
-      <div class="container" style="padding-top: 60px">
+      <div class="container" style="padding-top: 30px">
         <h1 class="mt-5">Symbol Art Test</h1>
         <div class="mb-3">
           <label for="sarFile" class="form-label">Select *.sar file.</label>
           <input class="form-control" type="file" id="sarFile" accept="*.sar" />
         </div>
-        <h2>Dumped data</h2>
-        <table class="table">
-          <caption>Properties</caption>
-          <tbody>
-            <tr>
-              <th scope="row">Author ID</th>
-              <td id="authorId"></td>
-            </tr>
-            <tr>
-              <th scope="row">Name</th>
-              <td id="name"></td>
-            </tr>
-            <tr>
-              <th scope="row">Sound</th>
-              <td><audio id="sound" controls></audio></td>
-            </tr>
-            <tr>
-              <th scope="row">Layer Count</th>
-              <td id="layerCount"></td>
-            </tr>
-          </tbody>
-        </table>
-        <table class="table" id="layers">
-          <caption>Layers</caption>
-          <thead>
-            <th scope="col">Layer</th>
-            <th scope="col">Symbol</th>
-            <th scope="col">Visible</th>
-            <th scope="col">Position</th>
-          </thead>
-          <tbody></tbody>
-        </table>
-        <pre id="output"></pre>
+        <section>
+          <h2>Analysis result</h2>
+          <table class="table caption-top">
+            <caption>Properties</caption>
+            <tbody>
+              <tr>
+                <th scope="row">Author ID</th>
+                <td id="authorId"></td>
+              </tr>
+              <tr>
+                <th scope="row">Name</th>
+                <td id="name"></td>
+              </tr>
+              <tr>
+                <th scope="row">Sound</th>
+                <td><audio id="sound" controls></audio></td>
+              </tr>
+              <tr>
+                <th scope="row">Layer Count</th>
+                <td id="layerCount"></td>
+              </tr>
+            </tbody>
+          </table>
+          <hr />
+          <table
+            class="table table-striped table-hover caption-top"
+            id="layers"
+          >
+            <caption>Layers</caption>
+            <thead>
+              <th scope="col">Layer</th>
+              <th scope="col">Symbol</th>
+              <th scope="col">Visible</th>
+              <th scope="col">Position</th>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </section>
+        <section>
+          <h2>Raw JSON data</h2>
+          <pre id="output"></pre>
+        </section>
       </div>
     </main>
 
     <footer class="footer mt-auto py-3 bg-light">
       <div class="container">
         <span class="text-muted">
-          &copy; 2022 Logue
+          &copy; 2022
+          <a href="https://logue.dev/">Logue</a>
+          / MIT License
           <br />
           <small>
             All rights to the copyrighted works (images, data, audios, texts,
@@ -115,17 +126,20 @@
       integrity="sha256-JRXjfu4x9e89ZZsh3MhNxupzKwaHLaUQeLW1Jt40wME="
       crossorigin="anonymous"
     ></script>
-
+    <script
+      src="https://cdn.jsdelivr.net/npm/pixi.js@6.4.2/dist/browser/pixi.min.js"
+      integrity="sha256-lB5RvPZjlvoK6Zhp2AK8LZrYQ6zb5cEi/ZLEOK6rSgM="
+      crossorigin="anonymous"
+    ></script>
     <script type="module">
       import SymbolArt from '/src';
 
       const sar = new SymbolArt();
+
       const fileInput = document.getElementById('sarFile');
 
       document.addEventListener('DOMContentLoaded', event => {
-        console.log('Document loaded');
         // File selector
-
         fileInput.addEventListener('change', event => {
           event.preventDefault();
           document.getElementById('output').innerHTML = 'Loading...';
@@ -136,31 +150,36 @@
             console.log('loaded', fileInput.files[0]);
             const data = new Uint8Array(e.target.result);
 
-            let json;
             try {
-              sar.load(data);
-              json = sar.json;
-              document.getElementById('output').innerHTML = JSON.stringify(
-                json,
-                null,
-                2
-              );
+              sar.data = data;
             } catch (e) {
               console.error(e);
               document.getElementById('output').innerHTML = e;
             }
+            const json = sar.json;
+            document.getElementById('output').innerHTML = JSON.stringify(
+              json,
+              null,
+              2
+            );
+
             parseHandler(json);
           };
         });
       });
 
+      /**
+       * Analyse Symbol Art
+       *
+       * @param {SymbolArtInterface} json JSON Parsed Symbol Art
+       */
       function parseHandler(json) {
         document.getElementById('authorId').innerText = json.authorId;
         document.getElementById('name').innerText = json.name;
         document.getElementById('sound').src = `${
           import.meta.env.BASE_URL
         }sounds/${json.sound}.flac`;
-        document.getElementById('layerCount').innerText = json.layerCount;
+        document.getElementById('layerCount').innerText = json.layers.length;
 
         const tbody = document.querySelector('#layers > tbody');
         while (tbody.firstChild) {
@@ -179,28 +198,58 @@
             const td = document.createElement('td');
             switch (key) {
               case 'symbol':
+                const symbol = layer.symbol - 1;
+                const rgba = `rgba(${layer.r * 4},${layer.g * 4},${
+                  layer.b * 4
+                },${layer.a / 7})`;
                 const canvas = document.createElement('canvas');
+                canvas.id = `layer_${i}`;
                 canvas.width = 64;
                 canvas.height = 64;
-                canvas.className = 'img-thumbnail bg-seconrary';
-                new MonotoneCanvas({
-                  canvas: canvas,
-                  fileSrc: `${import.meta.env.BASE_URL}symbols/${
-                    layer.symbol
-                  }.webp`,
-                  width: 64,
-                  height: 64,
-                  color: '#' + layer.rgb,
-                });
-                canvas.style.opacity = layer.opacity / 7;
+                canvas.className = 'img-thumbnail';
+                canvas.title = symbol;
+                if (symbol < 720) {
+                  new MonotoneCanvas({
+                    canvas: canvas,
+                    fileSrc: `${
+                      import.meta.env.BASE_URL
+                    }symbols/${symbol}.webp`,
+                    width: 64,
+                    height: 64,
+                    color: rgba,
+                  });
+                } else {
+                  const img = new Image();
+                  img.src = `${import.meta.env.BASE_URL}symbols/${symbol}.webp`;
+                  img.onload = () => {
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(
+                      img,
+                      0,
+                      0,
+                      img.naturalWidth,
+                      img.naturalHeight
+                    );
+                  };
+                }
+
+                const color = document.createElement('input');
+                color.type = 'color';
+                color.className = 'form-control form-control-color';
+                color.value = `#${(layer.r * 4).toString(16)}${(
+                  layer.g * 4
+                ).toString(16)}${(layer.b * 4).toString(16)}`;
+                color.disabled = 'disabled';
+                color.title = rgba;
                 td.appendChild(canvas);
+                td.appendChild(color);
                 break;
-              case 'visibility':
+              case 'isVisible':
                 const visibility = document.createElement('input');
                 visibility.type = 'checkbox';
                 visibility.disabled = 'disabled';
                 visibility.className = 'form-check-input';
-                visibility.checked = layer[key] ? 'checked' : '';
+                visibility.checked = layer.isVisible ? 'checked' : '';
                 td.appendChild(visibility);
                 break;
               case 'position':
@@ -213,6 +262,10 @@
         });
       }
 
+      /**
+       * Apply color to image class
+       * @see {@href https://qiita.com/mczkzk/items/dfa5d6c97496813bfb04}
+       */
       class MonotoneCanvas {
         constructor(opts = {}) {
           this.canvas = opts.canvas || document.createElement('div');
@@ -220,6 +273,7 @@
           this.width = isNaN(opts.width) ? 0 : opts.width;
           this.height = isNaN(opts.height) ? 0 : opts.height;
           this.color = opts.color || '#000';
+          this.url = undefined;
 
           this.init();
         }

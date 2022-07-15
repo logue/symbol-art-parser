@@ -1,4 +1,5 @@
 import LayerInterface from './LayerInterface';
+import { SoundType } from './SoundType';
 
 export default interface SymbolArtInterface {
   /** Account ID */
@@ -12,10 +13,8 @@ export default interface SymbolArtInterface {
     /** Width */
     width: number;
   };
-  /** Layer count */
-  layerCount: number;
   /** Effect Sound ID */
-  sound: number;
+  sound: SoundType;
   /** Layers */
   layers: LayerInterface[];
 }

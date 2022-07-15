@@ -1,11 +1,15 @@
 import Blowfish from './helpers/Blowfish';
-import SymbolArtInterface from './interfaces/SymbolArtInterface';
-// import LayerPositionInterface from './interfaces/LayerPositionInterface';
+import type SymbolArtInterface from './interfaces/SymbolArtInterface';
+import { Sounds } from './interfaces/SoundType';
 import Cursor from './helpers/Cursor';
 import SarParser from './helpers/SarParser';
 
 /** SymbolArt Class */
 export default class SymbolArt {
+  /** Sar file Magic number */
+  static readonly FILE_MAGIC_NUMBER: number[] = Array.from('sar').map(
+    (c: string) => c.charCodeAt(0)
+  );
   /** Decrypt Key */
   static readonly BLOWFISH_KEY = Uint8Array.of(0x09, 0x07, 0xc1, 0x2b).buffer;
   /** Compressed Flag */
@@ -16,78 +20,84 @@ export default class SymbolArt {
   /** Cryptor */
   private browfish: Blowfish;
   /** Decrypted Data */
-  private data: ArrayBuffer;
-  /** Parsed Json Data */
-  // private packedData: SymbolArtInterface;
+  private decrypted: ArrayBuffer;
 
   /**
    * Constructor
    */
   constructor() {
     this.browfish = new Blowfish(SymbolArt.BLOWFISH_KEY);
-    /*
-    this.packedData = {
-      authorId: 0,
-      name: '',
-      size: {
-        height: 0,
-        width: 0,
-      },
-      layerCount: 0,
-      sound: 0,
-      layers: [],
-    };
-    */
-    this.data = new Uint8Array();
+    this.decrypted = new Uint8Array();
   }
 
   /**
-   * Output SymbolArt Data
+   * Get SymbolArt Data
+   */
+  get data(): ArrayBuffer {
+    /** File Header */
+    const header = new Uint8Array(4);
+    header[0] = SymbolArt.FILE_MAGIC_NUMBER[0];
+    header[1] = SymbolArt.FILE_MAGIC_NUMBER[1];
+    header[2] = SymbolArt.FILE_MAGIC_NUMBER[2];
+    header[3] = SymbolArt.FLAG_NOT_COMPRESSED;
+    /** Crypted Data */
+    const data = this.browfish.encrypt(this.decrypted);
+    // Prepend crypted data to file header
+    return this.appendBuffer(header, data);
+  }
+
+  /**
+   * Set SymbolArt Data
    * @param buffer - Synbolart(*.sar) File array buffer.
    */
-  load(buffer: ArrayBuffer) {
+  set data(buffer: ArrayBuffer) {
     /** binary */
     const u8a = new Uint8Array(buffer);
 
     // Header Check
-    if (u8a[0] !== 0x73 || u8a[1] !== 0x61 || u8a[2] !== 0x72) {
+    if (
+      u8a[0] !== SymbolArt.FILE_MAGIC_NUMBER[0] ||
+      u8a[1] !== SymbolArt.FILE_MAGIC_NUMBER[1] ||
+      u8a[2] !== SymbolArt.FILE_MAGIC_NUMBER[2]
+    ) {
       // sar
-      throw new Error('[SymbolArt] not a SAR file');
+      throw new Error('[SymbolArt.data] not a SAR file');
     }
     const flag = u8a[3];
     if (
       flag !== SymbolArt.FLAG_COMPRESSED &&
       flag !== SymbolArt.FLAG_NOT_COMPRESSED
     ) {
-      throw new Error(`[SymbolArt] invalid flag ${flag}`);
+      throw new Error(`[SymbolArt.data] invalid flag ${flag}`);
     }
 
     /** Remove file header */
     const source: Uint8Array = u8a.slice(4, buffer.byteLength);
 
     // Decrypt Blowfish
-    this.data = this.browfish.decrypt(source.buffer);
+    this.decrypted = this.browfish.decrypt(source.buffer);
 
     if (flag === SymbolArt.FLAG_COMPRESSED) {
       // Byte wise XOR by 0x95 of input from after flag bit
       // to the maximum multiple of 8 bytes on input
-      this.data = this.decompress(source.map(v => v ^ 0x95).buffer);
+      this.decrypted = this.decompress(source.map(v => v ^ 0x95).buffer);
     }
   }
 
-  /** Sar to JSON */
+  /** Get JSON Parsed SymbolArt Data */
   get json(): SymbolArtInterface {
     const sar = new SarParser();
     const registry = [sar.baseRegistry]
       .concat([])
       .reduce((a, v) => Object.assign(a, v), {});
-    return sar.parseSar(new Cursor(this.data), registry);
+    return sar.parseSar(new Cursor(this.decrypted), registry);
   }
 
-  /** Read from JSON */
+  /** Set Symbolart Data from JSON */
   set json(data: SymbolArtInterface) {
+    const layerCount = data.layers.length;
     const uint8arr = new Uint8Array(
-      8 + 16 * data.layerCount + 2 * data.name.length // In Bytes
+      8 + 16 * layerCount + 2 * data.name.length // In Bytes
     );
 
     let pos = 0;
@@ -95,10 +105,10 @@ export default class SymbolArt {
     uint8arr[pos++] = (data.authorId >> 8) & 0xff;
     uint8arr[pos++] = (data.authorId >> 16) & 0xff;
     uint8arr[pos++] = (data.authorId >> 24) & 0xff;
-    uint8arr[pos++] = data.layerCount & 0xff;
+    uint8arr[pos++] = layerCount & 0xff;
     uint8arr[pos++] = data.size.height & 0xff;
     uint8arr[pos++] = data.size.width & 0xff;
-    uint8arr[pos++] = data.sound & 0xff;
+    uint8arr[pos++] = Sounds[data.sound] & 0xff;
     for (let i = 0; i < data.layers.length; i++) {
       const layer = data.layers[i];
       uint8arr[pos++] = layer.position.topLeft.x & 0xff;
@@ -110,20 +120,16 @@ export default class SymbolArt {
       uint8arr[pos++] = layer.position.bottomRight.x & 0xff;
       uint8arr[pos++] = layer.position.bottomRight.y & 0xff;
       // Write condensed 32 bit layer properties
-      uint8arr[pos++] = ((layer.color.g & 0x3) << 6) | layer.color.r;
+      uint8arr[pos++] = ((layer.g & 0x3) << 6) | layer.r;
+      uint8arr[pos++] = ((layer.b & 0xf) << 4) | ((layer.g >> 2) & 0xf);
       uint8arr[pos++] =
-        ((layer.color.b & 0xf) << 4) | ((layer.color.g >> 2) & 0xf);
+        ((layer.symbol & 0x7) << 5) | (layer.a << 2) | ((layer.b >> 4) & 0x3);
       uint8arr[pos++] =
-        ((layer.symbol & 0x7) << 5) |
-        (layer.opacity << 2) |
-        ((layer.color.b >> 4) & 0x3);
-      uint8arr[pos++] =
-        ((layer.visibility ? 0 : 1) << 7) | ((layer.symbol >> 3) & 0x7f);
+        ((layer.isVisible ? 0 : 1) << 7) | ((layer.symbol >> 3) & 0x7f);
       // Write condensed 32 bit color X, Y, Z
-      uint8arr[pos++] = ((layer.color.x & 0x3) << 6) | layer.color.y;
-      uint8arr[pos++] =
-        ((layer.color.z & 0xf) << 4) | ((layer.color.y >> 2) & 0xf);
-      uint8arr[pos++] = (layer.color.z >> 4) & 0x3;
+      uint8arr[pos++] = ((layer.y & 0x3) << 6) | layer.x;
+      uint8arr[pos++] = ((layer.z & 0xf) << 4) | ((layer.y >> 2) & 0xf);
+      uint8arr[pos++] = (layer.z >> 4) & 0x3;
       uint8arr[pos++] = 0;
     }
     // Write Symbol Art name using UTF-16
@@ -134,7 +140,7 @@ export default class SymbolArt {
       // Write upperByte
       uint8arr[pos++] = (charCode >> 8) & 0xff;
     }
-    this.data = uint8arr;
+    this.decrypted = uint8arr;
   }
 
   /**
@@ -187,7 +193,7 @@ export default class SymbolArt {
       for (let i = 0; i < size; i++) {
         if (offset > 0) {
           throw new Error(
-            `[SymbolArtParser] offset > 0 (${offset}) (isLongCopy === ${isLongCopy})`
+            `[SymbolArt.decompress] offset > 0 (${offset}) (isLongCopy === ${isLongCopy})`
           );
         }
         writeCursor.seek(offset);
@@ -199,6 +205,18 @@ export default class SymbolArt {
     }
 
     return writeCursor.getBuffer().slice(0, writeCursor.getPosition());
+  }
+  /**
+   * Creates a new Uint8Array based on two different ArrayBuffers
+   *
+   * @param  buffer1 - The first buffer.
+   * @param  buffer2 - The second buffer.
+   */
+  private appendBuffer(buffer1: ArrayBuffer, buffer2: ArrayBuffer) {
+    const tmp = new Uint8Array(buffer1.byteLength + buffer2.byteLength);
+    tmp.set(new Uint8Array(buffer1), 0);
+    tmp.set(new Uint8Array(buffer2), buffer1.byteLength);
+    return tmp.buffer;
   }
 }
 

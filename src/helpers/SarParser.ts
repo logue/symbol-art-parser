@@ -1,10 +1,8 @@
-import LayerInterface from '../interfaces/LayerInterface';
-import RegistryInterface, {
-  SchemaType,
-} from '../interfaces/RegistoryInterface';
-import SymbolArtInterface from '../interfaces/SymbolArtInterface';
 import AbstractParser from './AbstractParser';
 import Cursor from './Cursor';
+import type LayerInterface from '../interfaces/LayerInterface';
+import type RegistryInterface from '../interfaces/RegistryInterface';
+import type SymbolArtInterface from '../interfaces/SymbolArtInterface';
 
 /**
  * Sar Parser
@@ -14,7 +12,7 @@ import Cursor from './Cursor';
  * @see https://github.com/HybridEidolon/saredit
  */
 export default class SarParser extends AbstractParser {
-  private pointSchema: Record<string, SchemaType> = {
+  private pointSchema = {
     x: 'u8',
     y: 'u8',
   };
@@ -38,9 +36,9 @@ export default class SarParser extends AbstractParser {
         registry: registry,
       });
 
-      const visible = !(val1 >> 31);
-      const textureIndex = (val1 >> 21) & 1023;
-      const transparency = (val1 >> 18) & 7;
+      const visibility = !(val1 >> 31);
+      const id = (val1 >> 21) & 1023;
+      const colorA = (val1 >> 18) & 7;
       const colorR = (val1 >> 0) & 63;
       const colorG = (val1 >> 6) & 63;
       const colorB = (val1 >> 12) & 63;
@@ -50,9 +48,9 @@ export default class SarParser extends AbstractParser {
       const colorZ = (val2 >> 12) & 63;
 
       return {
-        visible,
-        textureIndex,
-        transparency,
+        visibility,
+        id,
+        colorA,
         colorR,
         colorG,
         colorB,
@@ -99,23 +97,16 @@ export default class SarParser extends AbstractParser {
         registry: registry,
       });
       layers.push({
-        symbol: layer.props.textureIndex,
-        visibility: layer.props.visible,
+        symbol: layer.props.id,
+        isVisible: layer.props.visibility,
         position: layer.points,
-        opacity: layer.props.transparency,
-        rgb: this.rgb2Hex(
-          layer.props.colorR,
-          layer.props.colorG,
-          layer.props.colorB
-        ),
-        color: {
-          r: layer.props.colorR,
-          g: layer.props.colorG,
-          b: layer.props.colorB,
-          x: layer.props.colorX,
-          y: layer.props.colorY,
-          z: layer.props.colorZ,
-        },
+        r: layer.props.colorR,
+        g: layer.props.colorG,
+        b: layer.props.colorB,
+        a: layer.props.colorA,
+        x: layer.props.colorX,
+        y: layer.props.colorY,
+        z: layer.props.colorZ,
       });
     }
 
@@ -131,6 +122,7 @@ export default class SarParser extends AbstractParser {
         });
         name.push(c);
       } catch (e) {
+        console.warn('[SymbolArt.SarParser] Unable parse charactor.');
         break;
       }
     }
@@ -146,31 +138,7 @@ export default class SarParser extends AbstractParser {
         height: sizeHeight,
         width: sizeWidth,
       },
-      layerCount,
       layers,
     };
-  }
-
-  /**
-   * Get RGB Hex
-   * @param red - Red
-   * @param green - Green
-   * @param blue - Blue
-   * @returns
-   */
-  private rgb2Hex(red: number, green: number, blue: number): string {
-    return `${this.numberToHex(red * 4)}${this.numberToHex(
-      green * 4
-    )}${this.numberToHex(blue * 4)}`;
-  }
-
-  /**
-   * Number to Hex
-   * @param color - number
-   * @returns
-   */
-  private numberToHex(color: number) {
-    const hexadecimal = color.toString(16);
-    return hexadecimal.length === 1 ? '0' + hexadecimal : hexadecimal;
   }
 }

@@ -1,5 +1,5 @@
-import RegistryInterface from '../interfaces/RegistoryInterface';
 import Cursor from './Cursor';
+import type RegistryInterface from '../interfaces/RegistryInterface';
 
 /**
  * Abstract Parser.
@@ -27,11 +27,10 @@ export default abstract class AbstractParser {
   };
 
   /**
-   *
+   * Get parsed struct
    * @param buffer - buffer to parse
    * @param schema - schema to parse with
    * @param registries - registries of schemas or parsers to use (including base registry)
-   * @returns parsed struct
    */
   parse(
     buffer: ArrayBuffer,
@@ -49,9 +48,16 @@ export default abstract class AbstractParser {
   /**
    * Goes through a schema object and fill its data in order based on cursor and registry
    * @param payload - attributes to parse
-   * @returns
    */
-  parseAttribute({ cursor, schema, registry }: AttributePayload): any {
+  parseAttribute({
+    cursor,
+    schema,
+    registry,
+  }: {
+    cursor: Cursor;
+    schema: string | Function | Object;
+    registry: RegistryInterface | any;
+  }): any {
     switch (typeof schema) {
       case 'string': {
         // For positions, name, and other properties
@@ -85,10 +91,4 @@ export default abstract class AbstractParser {
       }
     }
   }
-}
-
-interface AttributePayload {
-  cursor: Cursor;
-  schema: string | Function | Object;
-  registry: RegistryInterface | any;
 }
