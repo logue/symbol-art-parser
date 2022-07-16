@@ -40,13 +40,15 @@ const data = sar.data;
 
 ## Json Format
 
-See [SymbolArtInterface](src/interfaces/SymbolArtInterface.ts) and [LayerInterface](src/interfaces/LayerInterface.ts) or use [JSON Schema](https://json-schema.org/) file.
+See [SymbolArtInterface](src/interfaces/SymbolArtInterface.ts) and [LayerInterface](src/interfaces/LayerInterface.ts).
 
-<https://logue.dev/symbol-art-parser/schema.json>
+Or use [JSON Schema](https://json-schema.org/) file.
+
+<https://github.com/logue/symbol-art-parser/blob/master/schema.json>
 
 ## Reference
 
-- [saredit](https://github.com/HybridEidolon/saredit)
+- [saredit](https://github.com/HybridEidolon/saredit) - The processing referred to this program.
 
 ## License
 

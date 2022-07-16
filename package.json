@@ -12,6 +12,7 @@
     "phantasy-star-online2"
   ],
   "license": "MIT",
+  "type": "module",
   "author": {
     "name": "Logue",
     "email": "logue@hotmail.co.jp",
@@ -24,9 +25,6 @@
   },
   "bugs": {
     "url": "https://github.com/logue/symbol-art-parser.js/issues"
-  },
-  "directories": {
-    "doc": "docs"
   },
   "files": [
     "dist"

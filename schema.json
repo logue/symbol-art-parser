@@ -1,5 +1,5 @@
 {
-  "$id": "https://logue.dev/symbol-art-parser/schema.json",
+  "$id": "https://github.com/logue/symbol-art-parser/blob/master/schema.json",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Symbol Art JSON",
   "description": "Phantasy Star Online 2 Symbol Art Json file schema.",
@@ -27,12 +27,12 @@
         "height": {
           "type": "integer",
           "minimum": 64,
-          "maximum": 128,
+          "maximum": 128
         },
         "width": {
           "type": "integer",
           "minimum": 64,
-          "maximum": 193,
+          "maximum": 193
         }
       },
       "required": ["height", "width"]
