@@ -14,7 +14,7 @@ This library only implements parsing and reading / writing of sar files, and doe
 
 - <https://logue.dev/symbol-art-parser/>
 
-## Syntax
+## Usage
 
 ```js
 import SymbolArt from 'symbol-art-parser';
@@ -40,7 +40,9 @@ const data = sar.data;
 
 ## Json Format
 
-See [SymbolArtInterface](src/interfaces/SymbolArtInterface.ts) and [LayerInterface](src/interfaces/LayerInterface.ts).
+See [SymbolArtInterface](src/interfaces/SymbolArtInterface.ts) and [LayerInterface](src/interfaces/LayerInterface.ts) or use [JSON Schema](https://json-schema.org/) file.
+
+<https://logue.dev/symbol-art-parser/schema.json>
 
 ## Reference
 
