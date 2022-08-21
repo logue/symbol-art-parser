@@ -1,5 +1,5 @@
 {
-  "$id": "https://github.com/logue/symbol-art-parser/blob/master/schema.json",
+  "$id": "https://github.com/logue/symbol-art-parser/raw/master/schema.json",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Symbol Art JSON",
   "description": "Phantasy Star Online 2 Symbol Art Json file schema.",

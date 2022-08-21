@@ -3,6 +3,7 @@ import type SymbolArtInterface from './interfaces/SymbolArtInterface';
 import { Sounds } from './interfaces/SoundType';
 import Cursor from './helpers/Cursor';
 import SarParser from './helpers/SarParser';
+import Meta from './Meta';
 
 /** SymbolArt Class */
 export default class SymbolArt {
@@ -109,8 +110,7 @@ export default class SymbolArt {
     uint8arr[pos++] = data.size.height & 0xff;
     uint8arr[pos++] = data.size.width & 0xff;
     uint8arr[pos++] = Sounds[data.sound] & 0xff;
-    for (let i = 0; i < data.layers.length; i++) {
-      const layer = data.layers[i];
+    for (const layer of data.layers) {
       uint8arr[pos++] = layer.position.topLeft.x & 0xff;
       uint8arr[pos++] = layer.position.topLeft.y & 0xff;
       uint8arr[pos++] = layer.position.bottomLeft.x & 0xff;
@@ -206,6 +206,10 @@ export default class SymbolArt {
 
     return writeCursor.getBuffer().slice(0, writeCursor.getPosition());
   }
+  /** Get Version */
+  static version = Meta.version;
+  /** Get Build Date */
+  static build = Meta.date;
   /**
    * Creates a new Uint8Array based on two different ArrayBuffers
    *
@@ -218,10 +222,4 @@ export default class SymbolArt {
     tmp.set(new Uint8Array(buffer2), buffer1.byteLength);
     return tmp.buffer;
   }
-}
-
-// @ts-ignore
-if (!window.SymbolArt) {
-  // @ts-ignore
-  window.SymbolArt = SymbolArt;
 }

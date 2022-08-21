@@ -8,8 +8,11 @@ extends:
   - plugin:import/recommended
   - plugin:@typescript-eslint/eslint-recommended
   - plugin:import/typescript
+  - plugin:yaml/recommended
+  - plugin:json-schema-validator/recommended
   - eslint-config-prettier
 plugins:
+  - yaml
   - jsdoc
   - tsdoc
 parser: '@typescript-eslint/parser'

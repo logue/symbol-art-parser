@@ -45,6 +45,7 @@ const config: UserConfig = {
       entry: path.resolve(__dirname, 'src/index.ts'),
       name: 'SymbolArt',
       fileName: format => `index.${format}.js`,
+      formats: ['es', 'umd', 'iife'],
     },
     target: 'es2021',
   },

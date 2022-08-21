@@ -6,7 +6,7 @@
 [![npm version](https://img.shields.io/npm/v/symbol-art-parser.svg)](https://www.npmjs.com/package/symbol-art-parser)
 [![Open in Gitpod](https://shields.io/badge/Open%20in-Gitpod-green?logo=Gitpod)](https://gitpod.io/#https://github.com/logue/symbol-art-parser)
 
-TypeScript Phantasy Star Online 2's Symbol Art Parser Libraly.
+TypeScript [Phantasy Star Online 2](https://ngs.pso2.com/)'s Symbol Art Parser Libraly.
 
 This library only implements parsing and reading / writing of sar files, and does not include drawing processing.
 
@@ -28,17 +28,17 @@ reader.onload = () => {
 };
 reader.readAsArrayBuffer('[*.sar file]');
 
-// Dump to Symbol Art json
+// Dump Symbol Art to json.
 const json = sar.json;
 
-// Set Symbol Art json
+// Set Symbol Art from json.
 sar.json = json;
 
 // Save SymbolArt as ArrayBuffer
 const data = sar.data;
 ```
 
-## Json Format
+## Symbol Art Json Format
 
 See [SymbolArtInterface](src/interfaces/SymbolArtInterface.ts) and [LayerInterface](src/interfaces/LayerInterface.ts).
 
@@ -53,3 +53,7 @@ Or use [JSON Schema](https://json-schema.org/) file.
 ## License
 
 [MIT](LICENSE)
+
+&copy; 2022 By Logue.
+
+All rights to the copyrighted works (images, data, audios, texts, etc.) used in ["PSO2: NGS"](https://ngs.pso2.com/) are owned by [SEGA Corporation](https://sega.com/) or its licensors.
