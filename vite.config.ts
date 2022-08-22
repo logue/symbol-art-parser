@@ -52,7 +52,7 @@ const config: UserConfig = {
 };
 
 // Export vite config
-export default defineConfig(async ({ command }): Promise<UserConfig> => {
+export default defineConfig(async (): Promise<UserConfig> => {
   // Hook production build.
   // Write meta data.
   fs.writeFileSync(

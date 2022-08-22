@@ -56,8 +56,8 @@ export default abstract class AbstractParser {
   }: {
     cursor: Cursor;
     schema: string | Function | Object;
-    registry: RegistryInterface | any;
-  }): any {
+    registry: RegistryInterface;
+  }) {
     switch (typeof schema) {
       case 'string': {
         // For positions, name, and other properties
@@ -78,7 +78,6 @@ export default abstract class AbstractParser {
         // Schema object. Parse every attribute.
         const parsedObject: Record<string, Function> = {};
         for (const k of Object.keys(schema)) {
-          // @ts-ignore
           const v = schema[k];
           const value = this.parseAttribute({
             cursor: cursor,

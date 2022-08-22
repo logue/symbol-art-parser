@@ -1,6 +1,6 @@
 {
   "$id": "https://github.com/logue/symbol-art-parser/raw/master/schema.json",
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$schema": "http://json-schema.org/draft/2020-12/schema",
   "title": "Symbol Art JSON",
   "description": "Phantasy Star Online 2 Symbol Art Json file schema.",
   "type": "object",
@@ -117,7 +117,7 @@
   "required": ["authorId", "layers", "name", "size", "sound"],
   "$defs": {
     "position": {
-      "title": "Symbol drawing position.",
+      "title": "Symbol parts drawing position.",
       "type": "object",
       "additionalProperties": false,
       "properties": {

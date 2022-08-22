@@ -193,10 +193,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^18.7.8":
-  version: 18.7.8
-  resolution: "@types/node@npm:18.7.8"
-  checksum: e0125efefa896083c05f549d93166109959ffdd68cb626aad0d660c0ce9de888fe405b4763b4a3c3e0968560409c272413e0ad07204522543c688e162a617ecb
+"@types/node@npm:^18.7.9":
+  version: 18.7.9
+  resolution: "@types/node@npm:18.7.9"
+  checksum: 691ea1b734c0a39c4fe03c104fed18e0148bda6f2504dd341f84be8153d28e74d8114198d2d064ab7fdd2ece3ee16c60b78eea0101fb004f6e4595a631bc3839
   languageName: node
   linkType: hard
 
@@ -3719,7 +3719,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "symbol-art-parser@workspace:."
   dependencies:
-    "@types/node": ^18.7.8
+    "@types/node": ^18.7.9
     "@typescript-eslint/eslint-plugin": ^5.33.1
     "@typescript-eslint/parser": ^5.33.1
     eslint: ^8.22.0
@@ -3740,7 +3740,7 @@ __metadata:
     rimraf: ^3.0.2
     typescript: ^4.7.4
     vite: ^3.0.9
-    vite-plugin-banner: ^0.3.0
+    vite-plugin-banner: ^0.4.0
     vite-plugin-checker: ^0.4.9
   languageName: unknown
   linkType: soft
@@ -3967,10 +3967,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vite-plugin-banner@npm:^0.3.0":
-  version: 0.3.0
-  resolution: "vite-plugin-banner@npm:0.3.0"
-  checksum: 66208afaeb404190943ddca7e7436e2135db8c4113df3d1ef51aa3c0d66f9c4e830eadbcb3955ba63f65a98cdb6e2daa04855cbbb5b1e3985ce6c18f150003fa
+"vite-plugin-banner@npm:^0.4.0":
+  version: 0.4.0
+  resolution: "vite-plugin-banner@npm:0.4.0"
+  checksum: e9954693776497a74808baf757adea679263d9d19b2572dedce35a763d347bca3ea589ad6c8e6997eea1b7e42efb69c95b832f4f1ad1b3c3ccc01ffc78a9441e
   languageName: node
   linkType: hard
 
