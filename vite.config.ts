@@ -47,7 +47,7 @@ const config: UserConfig = {
       fileName: format => `index.${format}.js`,
       formats: ['es', 'umd', 'iife'],
     },
-    target: 'es2021',
+    target: 'es2022',
   },
 };
 
