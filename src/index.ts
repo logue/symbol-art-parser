@@ -37,9 +37,9 @@ export default class SymbolArt {
   get data(): ArrayBuffer {
     /** File Header */
     const header = new Uint8Array(4);
-    header[0] = SymbolArt.FILE_MAGIC_NUMBER[0];
-    header[1] = SymbolArt.FILE_MAGIC_NUMBER[1];
-    header[2] = SymbolArt.FILE_MAGIC_NUMBER[2];
+    SymbolArt.FILE_MAGIC_NUMBER.forEach(
+      (value, index) => (header[index] = value)
+    );
     header[3] = SymbolArt.FLAG_NOT_COMPRESSED;
     /** Crypted Data */
     const data = this.browfish.encrypt(this.decrypted);
@@ -109,7 +109,7 @@ export default class SymbolArt {
     uint8arr[pos++] = layerCount & 0xff;
     uint8arr[pos++] = data.size.height & 0xff;
     uint8arr[pos++] = data.size.width & 0xff;
-    uint8arr[pos++] = Sounds[data.sound] & 0xff;
+    uint8arr[pos++] = Sounds[data.sound] || 1 & 0xff;
     for (const layer of data.layers) {
       uint8arr[pos++] = layer.position.topLeft.x & 0xff;
       uint8arr[pos++] = layer.position.topLeft.y & 0xff;

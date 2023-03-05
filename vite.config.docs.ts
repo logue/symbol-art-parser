@@ -1,5 +1,5 @@
 import { defineConfig, type UserConfig } from 'vite';
-import checker from 'vite-plugin-checker';
+import { checker } from 'vite-plugin-checker';
 import path from 'path';
 import fs from 'fs';
 const pkg = require('./package.json');

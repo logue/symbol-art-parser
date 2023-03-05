@@ -1,33 +1,9 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig.json",
-  "compilerOptions": {
-    "allowJs": false,
-    "allowSyntheticDefaultImports": true,
-    "declaration": true,
-    "declarationMap": true,
-    "declarationDir": "dist",
-    "esModuleInterop": true,
-    "emitDeclarationOnly": false,
-    "experimentalDecorators": true,
-    "importHelpers": true,
-    "isolatedModules": true,
-    "lib": ["ESNext", "DOM"],
-    "module": "ESNext",
-    "moduleResolution": "Node",
-    "newLine": "lf",
-    "noImplicitAny": false,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "paths": { "@/*": ["./src/*"] },
-    "resolveJsonModule": true,
-    "skipLibCheck": true,
-    "sourceMap": true,
-    "strict": true,
-    "target": "ESNext",
-    "types": ["vite/client"],
-    "useDefineForClassFields": true
-  },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx"],
-  "exclude": ["node_modules", "dist"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "files": [],
+  "compilerOptions": { "newLine": "lf" },
+  "references": [
+    { "path": "./tsconfig.config.json" },
+    { "path": "./tsconfig.app.json" }
+  ]
 }

@@ -1,7 +1,5 @@
 .husky/
 .vscode/
 .yarn/
-public/assets
-dist/
 docs/
-tsconfig.node.json
+dist/

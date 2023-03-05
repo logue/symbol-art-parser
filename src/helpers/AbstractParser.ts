@@ -55,15 +55,16 @@ export default abstract class AbstractParser {
     registry,
   }: {
     cursor: Cursor;
-    schema: string | Function | Object;
+    schema: any;
     registry: RegistryInterface;
-  }) {
+  }): any {
     switch (typeof schema) {
       case 'string': {
         // For positions, name, and other properties
         // References a schema/parser in the registry
         return this.parseAttribute({
           cursor: cursor,
+          // @ts-ignore
           schema: registry[schema],
           registry: registry,
         });

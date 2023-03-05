@@ -1,5 +1,5 @@
 import AbstractParser from './AbstractParser';
-import Cursor from './Cursor';
+import type Cursor from './Cursor';
 import type LayerInterface from '../interfaces/LayerInterface';
 import type RegistryInterface from '../interfaces/RegistryInterface';
 import type SymbolArtInterface from '../interfaces/SymbolArtInterface';
