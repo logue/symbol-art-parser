@@ -1,5 +1,5 @@
-import Cursor from './Cursor';
-import type RegistryInterface from '../interfaces/RegistryInterface';
+import Cursor from '@/helpers/Cursor';
+import type RegistryInterface from '@/interfaces/RegistryInterface';
 
 /**
  * Abstract Parser.

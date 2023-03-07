@@ -25,12 +25,12 @@ export default class Cursor {
   }
 
   /** Get Buffer */
-  getBuffer() {
+  getBuffer(): ArrayBuffer {
     return this.buffer;
   }
 
   /** Get DataView */
-  getDataView() {
+  getDataView(): DataView {
     return this.dataView;
   }
 

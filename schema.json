@@ -6,7 +6,7 @@
   "type": "object",
   "properties": {
     "authorId": {
-      "title": "Synbol art author's Account ID. Not compatible between JP accounts and global accounts.",
+      "title": "Symbol art author's SEGA Account ID. Not compatible between JP accounts and global accounts.",
       "type": "integer"
     },
     "name": {

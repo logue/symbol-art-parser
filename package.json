@@ -39,7 +39,7 @@
     }
   },
   "engines": {
-    "node": ">=18.14.1",
+    "node": ">=18.14.2",
     "yarn": ">=1.22.19"
   },
   "packageManager": "yarn@3.4.1",
@@ -54,16 +54,17 @@
     "build-only": "vite build",
     "build-declaration": "tsc -p tsconfig.app.json --composite false",
     "lint": "eslint . --fix --cache --cache-location ./node_modules/.vite/vite-plugin-eslint && prettier . --write",
+    "preview": "vite preview --mode=docs",
     "prepare": "husky install"
   },
   "devDependencies": {
     "@tsconfig/node18-strictest-esm": "^1.0.1",
     "@types/node": "^18.14.6",
-    "@typescript-eslint/eslint-plugin": "^5.54.0",
-    "@typescript-eslint/parser": "^5.54.0",
+    "@typescript-eslint/eslint-plugin": "^5.54.1",
+    "@typescript-eslint/parser": "^5.54.1",
     "eslint": "^8.35.0",
     "eslint-config-google": "^0.14.0",
-    "eslint-config-prettier": "^8.6.0",
+    "eslint-config-prettier": "^8.7.0",
     "eslint-import-resolver-alias": "^1.1.2",
     "eslint-import-resolver-typescript": "^3.5.3",
     "eslint-plugin-import": "^2.27.5",
@@ -77,7 +78,7 @@
     "lint-staged": "^13.1.2",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.8.4",
-    "rimraf": "^4.3.0",
+    "rimraf": "^4.3.1",
     "typescript": "^4.9.5",
     "vite": "^4.1.4",
     "vite-plugin-banner": "^0.7.0",

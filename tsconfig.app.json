@@ -9,6 +9,8 @@
     "declaration": true,
     "declarationDir": "./dist",
     "outDir": "./dist",
+    "exactOptionalPropertyTypes": false,
+    "strictNullChecks": false,
     "paths": {
       "@/*": ["./src/*"]
     }

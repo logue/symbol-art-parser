@@ -14,4 +14,4 @@ export const Sounds: Record<string, number> = {
 } as const;
 
 /** Sound Effect Type */
-export type SoundType = typeof Sounds[keyof typeof Sounds];
+export type SoundType = (typeof Sounds)[keyof typeof Sounds];

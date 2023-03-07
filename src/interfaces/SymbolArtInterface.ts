@@ -1,5 +1,5 @@
-import type LayerInterface from './LayerInterface';
-import type { SoundType } from './SoundType';
+import type LayerInterface from '@/interfaces/LayerInterface';
+import type { SoundType } from '@/interfaces/SoundType';
 
 export default interface SymbolArtInterface {
   /** Account ID */
