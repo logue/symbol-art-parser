@@ -1,4 +1,6 @@
+import BaseRegistry from '@/helpers/BaseRegistry';
 import Cursor from '@/helpers/Cursor';
+import type { SchemaType } from '@/interfaces/RegistryInterface';
 import type RegistryInterface from '@/interfaces/RegistryInterface';
 
 /**
@@ -9,22 +11,7 @@ import type RegistryInterface from '@/interfaces/RegistryInterface';
  * @see https://github.com/HybridEidolon/saredit
  */
 export default abstract class AbstractParser {
-  readonly baseRegistry: RegistryInterface = {
-    u8: (cursor: Cursor) => cursor.readUint8(),
-    u16: (cursor: Cursor) => cursor.readUint16(false),
-    u32: (cursor: Cursor) => cursor.readUint32(false),
-    u16le: (cursor: Cursor) => cursor.readUint16(true),
-    u32le: (cursor: Cursor) => cursor.readUint32(true),
-    i8: (cursor: Cursor) => cursor.readInt8(),
-    i16: (cursor: Cursor) => cursor.readInt16(false),
-    i32: (cursor: Cursor) => cursor.readInt32(false),
-    i16le: (cursor: Cursor) => cursor.readInt16(true),
-    i32le: (cursor: Cursor) => cursor.readInt32(true),
-    f32: (cursor: Cursor) => cursor.readFloat32(false),
-    f64: (cursor: Cursor) => cursor.readFloat64(false),
-    f32le: (cursor: Cursor) => cursor.readFloat32(true),
-    f64le: (cursor: Cursor) => cursor.readFloat64(true),
-  };
+  protected readonly decoder = new TextDecoder('utf-16');
 
   /**
    * Get parsed struct
@@ -34,11 +21,11 @@ export default abstract class AbstractParser {
    */
   parse(
     buffer: ArrayBuffer,
-    schema: Object,
-    registries: Object[] = []
-  ): Object {
+    schema: SchemaType,
+    registries: RegistryInterface[] = []
+  ) {
     const cursor = new Cursor(buffer);
-    const registry = [this.baseRegistry]
+    const registry = [BaseRegistry]
       .concat(registries)
       .reduce((a, v) => Object.assign(a, v), {});
 
@@ -64,8 +51,7 @@ export default abstract class AbstractParser {
         // References a schema/parser in the registry
         return this.parseAttribute({
           cursor: cursor,
-          // @ts-ignore
-          schema: registry[schema],
+          schema: registry[schema as SchemaType],
           registry: registry,
         });
       }
@@ -78,7 +64,8 @@ export default abstract class AbstractParser {
         // For the object itself and position 2D vectors
         // Schema object. Parse every attribute.
         const parsedObject: Record<string, Function> = {};
-        for (const k of Object.keys(schema)) {
+
+        Object.keys(schema).forEach(k => {
           const v = schema[k];
           const value = this.parseAttribute({
             cursor: cursor,
@@ -86,7 +73,7 @@ export default abstract class AbstractParser {
             registry: registry,
           });
           parsedObject[k] = value;
-        }
+        });
         return parsedObject;
       }
     }

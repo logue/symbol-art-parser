@@ -12,7 +12,7 @@ import type SymbolArtInterface from '@/interfaces/SymbolArtInterface';
  * @see https://github.com/HybridEidolon/saredit
  */
 export default class SarParser extends AbstractParser {
-  private pointSchema = {
+  private readonly pointSchema = {
     x: 'u8',
     y: 'u8',
   };
@@ -127,12 +127,11 @@ export default class SarParser extends AbstractParser {
       }
     }
 
-    const decoder = new TextDecoder('utf-16');
     const dataView = new DataView(Uint16Array.from(name).buffer);
 
     return {
       authorId,
-      name: decoder.decode(dataView),
+      name: this.decoder.decode(dataView),
       sound: soundEffect,
       size: {
         height: sizeHeight,

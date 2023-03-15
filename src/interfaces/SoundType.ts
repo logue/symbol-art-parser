@@ -1,5 +1,5 @@
 /** Sound Effects */
-export const Sounds: Record<string, number> = {
+const Sounds: Record<string, number> = {
   None: 1,
   Normal: 2,
   Joy: 3,
@@ -15,3 +15,5 @@ export const Sounds: Record<string, number> = {
 
 /** Sound Effect Type */
 export type SoundType = (typeof Sounds)[keyof typeof Sounds];
+
+export default Sounds;

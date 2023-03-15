@@ -3,7 +3,7 @@ import { defineConfig, type UserConfig } from 'vite';
 import banner from 'vite-plugin-banner';
 
 import { fileURLToPath, URL } from 'node:url';
-import fs from 'node:fs';
+import { writeFileSync } from 'node:fs';
 
 const pkg = require('./package.json');
 
@@ -54,27 +54,29 @@ export default defineConfig(async ({ command, mode }): Promise<UserConfig> => {
     ],
     // Build Options
     // https://vitejs.dev/config/#build-options
-    build: {
-      outDir: mode === 'docs' ? 'docs' : undefined,
-      lib:
-        mode === 'docs'
-          ? undefined
-          : {
+    build:
+      mode === 'docs'
+        ? {
+            outDir: 'docs',
+            minify: true,
+          }
+        : {
+            lib: {
               entry: fileURLToPath(new URL('src/index.ts', import.meta.url)),
               name: 'SymbolArt',
               formats: ['es', 'umd', 'iife'],
               fileName: format => `index.${format}.js`,
             },
-      target: 'esnext',
-      minify: mode === 'docs',
-    },
+            target: 'esnext',
+            minify: false,
+          },
     esbuild: {
       drop: command === 'serve' ? [] : ['console'],
     },
   };
 
   // Write meta data.
-  fs.writeFileSync(
+  writeFileSync(
     fileURLToPath(new URL('src/Meta.ts', import.meta.url)),
     `import type MetaInterface from './interfaces/MetaInterface';
 

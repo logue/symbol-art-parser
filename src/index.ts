@@ -1,22 +1,30 @@
-import { Sounds } from '@/interfaces/SoundType';
+import BaseRegistry from '@/helpers/BaseRegistry';
 import Blowfish from '@/helpers/Blowfish';
 import Cursor from '@/helpers/Cursor';
+import Decompress from '@/helpers/Decompress';
 import Meta from '@/Meta';
 import SarParser from '@/helpers/SarParser';
+import Sounds from '@/interfaces/SoundType';
 import type SymbolArtInterface from '@/interfaces/SymbolArtInterface';
 
 /** SymbolArt Class */
 export default class SymbolArt {
+  /** Get Version */
+  public static version = Meta.version;
+  /** Get Build Date */
+  public static build = Meta.date;
+
   /** Sar file Magic number */
-  static readonly FILE_MAGIC_NUMBER: number[] = Array.from('sar').map(
+  private static readonly FILE_MAGIC_NUMBER: number[] = Array.from('sar').map(
     (c: string) => c.charCodeAt(0)
   );
   /** Decrypt Key */
-  static readonly BLOWFISH_KEY = Uint8Array.of(0x09, 0x07, 0xc1, 0x2b).buffer;
+  private static readonly BLOWFISH_KEY = Uint8Array.of(0x09, 0x07, 0xc1, 0x2b)
+    .buffer;
   /** Compressed Flag */
-  static readonly FLAG_COMPRESSED = 0x84;
+  private static readonly FLAG_COMPRESSED = 0x84;
   /** Uncompressed Flag */
-  static readonly FLAG_NOT_COMPRESSED = 0x04;
+  private static readonly FLAG_NOT_COMPRESSED = 0x04;
 
   /** Cryptor */
   private browfish: Blowfish;
@@ -49,6 +57,7 @@ export default class SymbolArt {
 
   /**
    * Set SymbolArt Data
+   *
    * @param buffer - Synbolart(*.sar) File array buffer.
    */
   set data(buffer: ArrayBuffer) {
@@ -81,20 +90,24 @@ export default class SymbolArt {
     if (flag === SymbolArt.FLAG_COMPRESSED) {
       // Byte wise XOR by 0x95 of input from after flag bit
       // to the maximum multiple of 8 bytes on input
-      this.decrypted = this.decompress(source.map(v => v ^ 0x95).buffer);
+      this.decrypted = Decompress(source.map(v => v ^ 0x95).buffer);
     }
   }
 
   /** Get JSON Parsed SymbolArt Data */
   get json(): SymbolArtInterface {
     const sar = new SarParser();
-    const registry = [sar.baseRegistry]
+    const registry = [BaseRegistry]
       .concat([])
       .reduce((a, v) => Object.assign(a, v), {});
     return sar.parseSar(new Cursor(this.decrypted), registry);
   }
 
-  /** Set Symbolart Data from JSON */
+  /**
+   * Set Symbolart Data from JSON
+   *
+   * @param data - Symbol Art JSON data
+   */
   set json(data: SymbolArtInterface) {
     const layerCount = data.layers.length;
     const uint8arr = new Uint8Array(
@@ -110,7 +123,8 @@ export default class SymbolArt {
     uint8arr[pos++] = data.size.height & 0xff;
     uint8arr[pos++] = data.size.width & 0xff;
     uint8arr[pos++] = Sounds[data.sound] || 1 & 0xff;
-    for (const layer of data.layers) {
+
+    data.layers.forEach(layer => {
       uint8arr[pos++] = layer.position.topLeft.x & 0xff;
       uint8arr[pos++] = layer.position.topLeft.y & 0xff;
       uint8arr[pos++] = layer.position.bottomLeft.x & 0xff;
@@ -131,7 +145,7 @@ export default class SymbolArt {
       uint8arr[pos++] = ((layer.z & 0xf) << 4) | ((layer.y >> 2) & 0xf);
       uint8arr[pos++] = (layer.z >> 4) & 0x3;
       uint8arr[pos++] = 0;
-    }
+    });
     // Write Symbol Art name using UTF-16
     for (let i = 0; i < data.name.length; i++) {
       const charCode = data.name.charCodeAt(i);
@@ -144,79 +158,15 @@ export default class SymbolArt {
   }
 
   /**
-   * @param buffer - buffer to decompress
-   */
-  private decompress(buffer: ArrayBuffer): ArrayBuffer {
-    const readCursor = new Cursor(buffer);
-    const writeCursor = new Cursor();
-
-    // eslint-disable-next-line no-constant-condition
-    while (true) {
-      let flag = readCursor.readBit();
-
-      if (flag) {
-        // literal byte
-        writeCursor.writeUint8(readCursor.readUint8());
-        continue;
-      }
-
-      let offset = 0;
-      let size = 0;
-      let isLongCopy = false;
-
-      flag = readCursor.readBit();
-      if (flag) {
-        isLongCopy = true;
-        // long copy or eof
-        offset = readCursor.readUint16(true);
-        if (offset === 0) {
-          break;
-        }
-        size = offset & 7;
-        offset = (offset >> 3) | -0x2000;
-        if (size === 0) {
-          const num3 = readCursor.readUint8();
-          size = num3 + 10;
-        } else {
-          size += 2;
-        }
-      } else {
-        // short copy
-        flag = readCursor.readBit() ? 1 : 0;
-        size = readCursor.readBit() ? 1 : 0;
-        size = (size | (flag << 1)) + 2;
-
-        offset = readCursor.readInt8() | -0x100;
-      }
-
-      // do the actual copy
-      for (let i = 0; i < size; i++) {
-        if (offset > 0) {
-          throw new Error(
-            `[SymbolArt.decompress] offset > 0 (${offset}) (isLongCopy === ${isLongCopy})`
-          );
-        }
-        writeCursor.seek(offset);
-        const newByte = writeCursor.readUint8();
-        writeCursor.seek(-1);
-        writeCursor.seek(-offset);
-        writeCursor.writeUint8(newByte);
-      }
-    }
-
-    return writeCursor.getBuffer().slice(0, writeCursor.getPosition());
-  }
-  /** Get Version */
-  static version = Meta.version;
-  /** Get Build Date */
-  static build = Meta.date;
-  /**
    * Creates a new Uint8Array based on two different ArrayBuffers
    *
    * @param  buffer1 - The first buffer.
    * @param  buffer2 - The second buffer.
    */
-  private appendBuffer(buffer1: ArrayBuffer, buffer2: ArrayBuffer) {
+  private appendBuffer(
+    buffer1: ArrayBuffer,
+    buffer2: ArrayBuffer
+  ): ArrayBuffer {
     const tmp = new Uint8Array(buffer1.byteLength + buffer2.byteLength);
     tmp.set(new Uint8Array(buffer1), 0);
     tmp.set(new Uint8Array(buffer2), buffer1.byteLength);
