@@ -27,7 +27,7 @@ export default interface LayerInterface {
   z: number;
 }
 
-type PositionType = {
+interface PositionType {
   x: number;
   y: number;
-};
+}

@@ -16,4 +16,4 @@ export default {
   f64: (cursor: Cursor) => cursor.readFloat64(false),
   f32le: (cursor: Cursor) => cursor.readFloat32(true),
   f64le: (cursor: Cursor) => cursor.readFloat64(true),
-} as RegistryInterface;
+} satisfies RegistryInterface;

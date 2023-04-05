@@ -15,7 +15,8 @@ function doTest(
   array: any,
   expected: any,
   registries: RegistryInterface[] = []
-) {
+): void {
+  // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
   test(`schema ${schema} parses buffer to ${expected}`, () => {
     const buf = Uint8Array.from(array);
     const parsed = parser.parse(buf.buffer, schema, registries);

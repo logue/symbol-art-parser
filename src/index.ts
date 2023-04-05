@@ -18,16 +18,18 @@ export default class SymbolArt {
   private static readonly FILE_MAGIC_NUMBER: number[] = Array.from('sar').map(
     (c: string) => c.charCodeAt(0)
   );
+
   /** Decrypt Key */
   private static readonly BLOWFISH_KEY = Uint8Array.of(0x09, 0x07, 0xc1, 0x2b)
     .buffer;
+
   /** Compressed Flag */
   private static readonly FLAG_COMPRESSED = 0x84;
   /** Uncompressed Flag */
   private static readonly FLAG_NOT_COMPRESSED = 0x04;
 
   /** Cryptor */
-  private browfish: Blowfish;
+  private readonly browfish: Blowfish;
   /** Decrypted Data */
   private decrypted: ArrayBuffer;
 
@@ -75,10 +77,11 @@ export default class SymbolArt {
     }
     const flag = u8a[3];
     if (
+      flag !== undefined &&
       flag !== SymbolArt.FLAG_COMPRESSED &&
       flag !== SymbolArt.FLAG_NOT_COMPRESSED
     ) {
-      throw new Error(`[SymbolArt.data] invalid flag ${flag}`);
+      throw new Error(`[SymbolArt.data] invalid flag ${flag.toString()}`);
     }
 
     /** Remove file header */
@@ -122,7 +125,7 @@ export default class SymbolArt {
     uint8arr[pos++] = layerCount & 0xff;
     uint8arr[pos++] = data.size.height & 0xff;
     uint8arr[pos++] = data.size.width & 0xff;
-    uint8arr[pos++] = Sounds[data.sound] || 1 & 0xff;
+    uint8arr[pos++] = Sounds[data.sound] ?? 1 & 0xff;
 
     data.layers.forEach(layer => {
       uint8arr[pos++] = layer.position.topLeft.x & 0xff;

@@ -1,11 +1,13 @@
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
 import { checker } from 'vite-plugin-checker';
 import { defineConfig, type UserConfig } from 'vite';
 import banner from 'vite-plugin-banner';
+import dts from 'vite-plugin-dts';
 
 import { fileURLToPath, URL } from 'node:url';
 import { writeFileSync } from 'node:fs';
 
-const pkg = require('./package.json');
+import pkg from './package.json';
 
 // Export vite config
 export default defineConfig(async ({ command, mode }): Promise<UserConfig> => {
@@ -51,6 +53,13 @@ export default defineConfig(async ({ command, mode }): Promise<UserConfig> => {
  * @see {@link ${pkg.homepage}}
  */
 `),
+      // vite-plugin-dts
+      // https://github.com/qmhc/vite-plugin-dts
+      mode === 'docs'
+        ? undefined
+        : dts({
+            tsConfigFilePath: './tsconfig.app.json',
+          }),
     ],
     // Build Options
     // https://vitejs.dev/config/#build-options

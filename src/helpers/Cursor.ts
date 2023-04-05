@@ -65,7 +65,7 @@ export default class Cursor {
    * @param le - litte endian
    */
   readUint16(le: boolean): number {
-    const ret = this.dataView.getUint16(this.pos, le === true ? true : false);
+    const ret = this.dataView.getUint16(this.pos, !!le);
     this.seek(2);
     return ret;
   }
@@ -75,7 +75,7 @@ export default class Cursor {
    * @param le - litte endian
    */
   readUint32(le: boolean): number {
-    const ret = this.dataView.getUint32(this.pos, le === true ? true : false);
+    const ret = this.dataView.getUint32(this.pos, !!le);
     this.seek(4);
     return ret;
   }
@@ -94,7 +94,7 @@ export default class Cursor {
    * @param le - litte endian
    */
   readInt16(le: boolean): number {
-    const ret = this.dataView.getInt16(this.pos, le === true ? true : false);
+    const ret = this.dataView.getInt16(this.pos, !!le);
     this.seek(2);
     return ret;
   }
@@ -104,7 +104,7 @@ export default class Cursor {
    * @param le - litte endian
    */
   readInt32(le: boolean): number {
-    const ret = this.dataView.getInt32(this.pos, le === true ? true : false);
+    const ret = this.dataView.getInt32(this.pos, !!le);
     this.seek(4);
     return ret;
   }
@@ -114,7 +114,7 @@ export default class Cursor {
    * @param le - litte endian
    */
   readFloat32(le: boolean): number {
-    const ret = this.dataView.getFloat32(this.pos, le === true ? true : false);
+    const ret = this.dataView.getFloat32(this.pos, !!le);
     this.seek(4);
     return ret;
   }
@@ -124,7 +124,7 @@ export default class Cursor {
    * @param le - litte endian
    */
   readFloat64(le: boolean): number {
-    const ret = this.dataView.getFloat64(this.pos, le === true ? true : false);
+    const ret = this.dataView.getFloat64(this.pos, !!le);
     this.seek(8);
     return ret;
   }
@@ -133,7 +133,7 @@ export default class Cursor {
    * Set unsigind int8
    * @param v - value
    */
-  writeUint8(v: number) {
+  writeUint8(v: number): void {
     this.extendIfNeeded(1);
     this.dataView.setUint8(this.pos, v);
     this.seek(1);
@@ -144,9 +144,9 @@ export default class Cursor {
    * @param v - value
    * @param le - little endian
    */
-  writeUint16(v: number, le: boolean) {
+  writeUint16(v: number, le: boolean): void {
     this.extendIfNeeded(2);
-    this.dataView.setUint16(this.pos, v, le === true ? true : false);
+    this.dataView.setUint16(this.pos, v, !!le);
     this.seek(2);
   }
 
@@ -155,9 +155,9 @@ export default class Cursor {
    * @param v - value
    * @param le - little endian
    */
-  writeUint32(v: number, le: boolean) {
+  writeUint32(v: number, le: boolean): void {
     this.extendIfNeeded(4);
-    this.dataView.setUint32(this.pos, v, le === true ? true : false);
+    this.dataView.setUint32(this.pos, v, !!le);
     this.seek(4);
   }
 
@@ -165,7 +165,7 @@ export default class Cursor {
    * Set int8
    * @param v - value
    */
-  writeInt8(v: number) {
+  writeInt8(v: number): void {
     this.extendIfNeeded(1);
     this.dataView.setInt8(this.pos, v);
     this.seek(1);
@@ -176,9 +176,9 @@ export default class Cursor {
    * @param v - value
    * @param le - little endian
    */
-  writeInt16(v: number, le: boolean) {
+  writeInt16(v: number, le: boolean): void {
     this.extendIfNeeded(2);
-    this.dataView.setInt16(this.pos, v, le === true ? true : false);
+    this.dataView.setInt16(this.pos, v, !!le);
     this.seek(2);
   }
 
@@ -187,9 +187,9 @@ export default class Cursor {
    * @param v - value
    * @param le - little endian
    */
-  writeInt32(v: number, le: boolean) {
+  writeInt32(v: number, le: boolean): void {
     this.extendIfNeeded(4);
-    this.dataView.setInt32(this.pos, v, le === true ? true : false);
+    this.dataView.setInt32(this.pos, v, !!le);
     this.seek(4);
   }
 
@@ -198,9 +198,9 @@ export default class Cursor {
    * @param v - value
    * @param le - little endian
    */
-  writeFloat32(v: number, le: boolean) {
+  writeFloat32(v: number, le: boolean): void {
     this.extendIfNeeded(4);
-    this.dataView.setFloat32(this.pos, v, le === true ? true : false);
+    this.dataView.setFloat32(this.pos, v, !!le);
     this.seek(4);
   }
 
@@ -209,9 +209,9 @@ export default class Cursor {
    * @param v - value
    * @param le - little endian
    */
-  writeFloat64(v: number, le: boolean) {
+  writeFloat64(v: number, le: boolean): void {
     this.extendIfNeeded(8);
-    this.dataView.setFloat64(this.pos, v, le === true ? true : false);
+    this.dataView.setFloat64(this.pos, v, !!le);
     this.seek(8);
   }
 
@@ -219,7 +219,7 @@ export default class Cursor {
    * Seek pointer
    * @param offset - offset bytes
    */
-  seek(offset: number) {
+  seek(offset: number): void {
     if (this.pos + offset > this.buffer.byteLength || this.pos + offset < 0) {
       throw new Error(
         `invalid seek to ${
@@ -231,7 +231,7 @@ export default class Cursor {
   }
 
   /** Add Padding */
-  private extendIfNeeded(adding: number) {
+  private extendIfNeeded(adding: number): void {
     if (this.pos + adding > this.buffer.byteLength) {
       const newBuffer = new ArrayBuffer(this.buffer.byteLength * 2);
       const newBufferDataView = new DataView(newBuffer);

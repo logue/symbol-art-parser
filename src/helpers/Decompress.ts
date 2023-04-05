@@ -11,7 +11,7 @@ export default function decompress(buffer: ArrayBuffer): ArrayBuffer {
   while (true) {
     let flag = readCursor.readBit();
 
-    if (flag) {
+    if (flag !== 0) {
       // literal byte
       writeCursor.writeUint8(readCursor.readUint8());
       continue;
@@ -22,7 +22,7 @@ export default function decompress(buffer: ArrayBuffer): ArrayBuffer {
     let isLongCopy = false;
 
     flag = readCursor.readBit();
-    if (flag) {
+    if (flag !== 0) {
       isLongCopy = true;
       // long copy or eof
       offset = readCursor.readUint16(true);
@@ -39,8 +39,8 @@ export default function decompress(buffer: ArrayBuffer): ArrayBuffer {
       }
     } else {
       // short copy
-      flag = readCursor.readBit() ? 1 : 0;
-      size = readCursor.readBit() ? 1 : 0;
+      flag = readCursor.readBit() !== 0 ? 1 : 0;
+      size = readCursor.readBit() !== 0 ? 1 : 0;
       size = (size | (flag << 1)) + 2;
 
       offset = readCursor.readInt8() | -0x100;
@@ -50,7 +50,7 @@ export default function decompress(buffer: ArrayBuffer): ArrayBuffer {
     for (let i = 0; i < size; i++) {
       if (offset > 0) {
         throw new Error(
-          `[SymbolArt.Decompress] offset > 0 (${offset}) (isLongCopy === ${isLongCopy})`
+          `[SymbolArt.Decompress] offset > 0 (${offset}) (isLongCopy === ${isLongCopy.toString()})`
         );
       }
       writeCursor.seek(offset);

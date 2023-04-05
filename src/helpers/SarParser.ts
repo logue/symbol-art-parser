@@ -17,7 +17,7 @@ export default class SarParser extends AbstractParser {
     y: 'u8',
   };
 
-  private layerSchema = {
+  private readonly layerSchema = {
     points: {
       topLeft: this.pointSchema,
       bottomLeft: this.pointSchema,
@@ -26,17 +26,17 @@ export default class SarParser extends AbstractParser {
     },
     props: (cursor: Cursor, registry: RegistryInterface) => {
       const val1 = this.parseAttribute({
-        cursor: cursor,
+        cursor,
         schema: 'u32le',
-        registry: registry,
+        registry,
       });
       const val2 = this.parseAttribute({
-        cursor: cursor,
+        cursor,
         schema: 'u32le',
-        registry: registry,
+        registry,
       });
 
-      const visibility = !(val1 >> 31);
+      const visibility = val1 >> 31 === 0;
       const id = (val1 >> 21) & 1023;
       const colorA = (val1 >> 18) & 7;
       const colorR = (val1 >> 0) & 63;
@@ -64,37 +64,37 @@ export default class SarParser extends AbstractParser {
   /** Sar file Schema. */
   parseSar(cursor: Cursor, registry: RegistryInterface): SymbolArtInterface {
     const authorId = this.parseAttribute({
-      cursor: cursor,
+      cursor,
       schema: 'u32le',
-      registry: registry,
+      registry,
     });
     const layerCount = this.parseAttribute({
-      cursor: cursor,
+      cursor,
       schema: 'u8',
-      registry: registry,
+      registry,
     });
     const sizeHeight = this.parseAttribute({
-      cursor: cursor,
+      cursor,
       schema: 'u8',
-      registry: registry,
+      registry,
     });
     const sizeWidth = this.parseAttribute({
-      cursor: cursor,
+      cursor,
       schema: 'u8',
-      registry: registry,
+      registry,
     });
     const soundEffect = this.parseAttribute({
-      cursor: cursor,
+      cursor,
       schema: 'u8',
-      registry: registry,
+      registry,
     });
     const layers: LayerInterface[] = [];
 
     for (let i = 0; i < layerCount; i++) {
       const layer = this.parseAttribute({
-        cursor: cursor,
+        cursor,
         schema: this.layerSchema,
-        registry: registry,
+        registry,
       });
       layers.push({
         symbol: layer.props.id,
@@ -116,9 +116,9 @@ export default class SarParser extends AbstractParser {
     for (let i = 0; i < (cursor.getDataView().byteLength - startPos) / 2; i++) {
       try {
         const c = this.parseAttribute({
-          cursor: cursor,
+          cursor,
           schema: 'u16le',
-          registry: registry,
+          registry,
         });
         name.push(c);
       } catch (e) {

@@ -12,6 +12,7 @@ export default class Blowfish {
     0x082efa98, 0xec4e6c89, 0x452821e6, 0x38d01377, 0xbe5466cf, 0x34e90c6c,
     0xc0ac29b7, 0xc97c50dd, 0x3f84d5b5, 0xb5470917, 0x9216d5d9, 0x8979fb1b,
   ]);
+
   private static readonly S_BOX: Uint32Array[] = [
     Uint32Array.from([
       0xd1310ba6, 0x98dfb5ac, 0x2ffd72db, 0xd01adfb7, 0xb8e1afed, 0x6a267e96,
@@ -194,12 +195,13 @@ export default class Blowfish {
       0xb74e6132, 0xce77e25b, 0x578fdfe3, 0x3ac372e6,
     ]),
   ];
+
   /** P Table */
-  private p: Uint32Array;
+  private readonly p: Uint32Array;
   /** S Table */
-  private s: Uint32Array[];
+  private readonly s: Uint32Array[];
   /** Crypt Key */
-  private key: Uint32Array;
+  private readonly key: Uint32Array;
 
   /**
    * constructor
@@ -243,6 +245,7 @@ export default class Blowfish {
       }
     }
   }
+
   /**
    * @param buffer - buffer to encrypt. must be multiple of 8
    */
@@ -298,6 +301,7 @@ export default class Blowfish {
     const b = s[1][(x >>> 16) & 0xff];
     const c = s[2][(x >>> 8) & 0xff];
     const d = s[3][x & 0xff];
+    // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
     const ret = ((a + b) ^ c) + d;
     return ret >>> 0;
   }

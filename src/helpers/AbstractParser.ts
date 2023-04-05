@@ -23,9 +23,11 @@ export default abstract class AbstractParser {
     buffer: ArrayBuffer,
     schema: SchemaType,
     registries: RegistryInterface[] = []
-  ) {
+  ): any {
     const cursor = new Cursor(buffer);
+
     const registry = [BaseRegistry]
+      // @ts-expect-error
       .concat(registries)
       .reduce((a, v) => Object.assign(a, v), {});
 
@@ -50,9 +52,9 @@ export default abstract class AbstractParser {
         // For positions, name, and other properties
         // References a schema/parser in the registry
         return this.parseAttribute({
-          cursor: cursor,
+          cursor,
           schema: registry[schema as SchemaType],
-          registry: registry,
+          registry,
         });
       }
       case 'function': {
@@ -63,14 +65,14 @@ export default abstract class AbstractParser {
       case 'object': {
         // For the object itself and position 2D vectors
         // Schema object. Parse every attribute.
-        const parsedObject: Record<string, Function> = {};
+        const parsedObject: Record<string, () => any> = {};
 
         Object.keys(schema).forEach(k => {
           const v = schema[k];
           const value = this.parseAttribute({
-            cursor: cursor,
+            cursor,
             schema: v,
-            registry: registry,
+            registry,
           });
           parsedObject[k] = value;
         });

@@ -54,6 +54,6 @@ Or use [JSON Schema](https://json-schema.org/) file.
 
 [MIT](LICENSE)
 
-&copy; 2022 By Logue.
+&copy; 2022-2023 By Logue.
 
 All rights to the copyrighted works (images, data, audios, texts, etc.) used in ["PSO2: NGS"](https://ngs.pso2.com/) are owned by [SEGA Corporation](https://sega.com/) or its licensors.
