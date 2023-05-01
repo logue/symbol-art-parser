@@ -12,10 +12,11 @@ parserOptions:
   createDefaultProgram: true
   project:
     - ./tsconfig.app.json
-    - ./tsconfig.config.json
+    - ./tsconfig.node.json
     - ./tsconfig.vitest.json
 rules:
   '@typescript-eslint/ban-ts-comment': off
+  '@typescript-eslint/restrict-template-expressions': off
 settings:
   import/parsers:
     '@typescript-eslint/parser':

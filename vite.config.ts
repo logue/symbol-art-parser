@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/restrict-template-expressions */
 import { checker } from 'vite-plugin-checker';
 import { defineConfig, type UserConfig } from 'vite';
 import banner from 'vite-plugin-banner';
@@ -36,12 +35,12 @@ export default defineConfig(async ({ command, mode }): Promise<UserConfig> => {
         typescript: true,
         vueTsc: false,
         eslint: {
-          lintCommand:
-            'eslint ./src --fix --cache --cache-location ./node_modules/.vite/vite-plugin-eslint',
+          lintCommand: 'eslint',
         },
       }),
       // vite-plugin-banner
       // https://github.com/chengpeiquan/vite-plugin-banner
+      // @ts-expect-error
       banner(`/**
  * ${pkg.name}
  *
