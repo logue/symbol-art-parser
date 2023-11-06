@@ -13,6 +13,8 @@ export default defineConfig(async ({ command, mode }): Promise<UserConfig> => {
   // Hook production build.
   // https://vitejs.dev/config/
   const config: UserConfig = {
+    // https://vitejs.dev/config/#base
+    base: './',
     // Resolver
     resolve: {
       // https://vitejs.dev/config/shared-options.html#resolve-alias
@@ -57,7 +59,7 @@ export default defineConfig(async ({ command, mode }): Promise<UserConfig> => {
       mode === 'docs'
         ? undefined
         : dts({
-            tsConfigFilePath: './tsconfig.app.json',
+            tsconfigPath: './tsconfig.app.json',
           }),
     ],
     // Build Options
