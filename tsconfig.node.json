@@ -3,11 +3,10 @@
   "include": ["env.d.ts", "vite.config.*", "vitest.config.*", "package.json"],
   "compilerOptions": {
     "composite": true,
+    "noEmit": true,
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
     "resolveJsonModule": true,
-    "esModuleInterop": true,
-    "module": "NodeNext",
-    "moduleResolution": "nodenext",
-    "lib": [],
     "types": ["node"]
   }
 }

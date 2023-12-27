@@ -42,7 +42,6 @@ export default defineConfig(async ({ command, mode }): Promise<UserConfig> => {
       }),
       // vite-plugin-banner
       // https://github.com/chengpeiquan/vite-plugin-banner
-      // @ts-expect-error
       banner(`/**
  * ${pkg.name}
  *
@@ -56,11 +55,7 @@ export default defineConfig(async ({ command, mode }): Promise<UserConfig> => {
 `),
       // vite-plugin-dts
       // https://github.com/qmhc/vite-plugin-dts
-      mode === 'docs'
-        ? undefined
-        : dts({
-            tsconfigPath: './tsconfig.app.json',
-          }),
+      mode === 'docs' ? undefined : dts(),
     ],
     // Build Options
     // https://vitejs.dev/config/#build-options
@@ -68,7 +63,6 @@ export default defineConfig(async ({ command, mode }): Promise<UserConfig> => {
       mode === 'docs'
         ? {
             outDir: 'docs',
-            minify: true,
           }
         : {
             lib: {
@@ -78,7 +72,6 @@ export default defineConfig(async ({ command, mode }): Promise<UserConfig> => {
               fileName: format => `index.${format}.js`,
             },
             target: 'esnext',
-            minify: false,
           },
     esbuild: {
       drop: command === 'serve' ? [] : ['console'],
