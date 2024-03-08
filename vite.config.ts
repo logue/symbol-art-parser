@@ -23,13 +23,6 @@ export default defineConfig(async ({ command, mode }): Promise<UserConfig> => {
         '~': fileURLToPath(new URL('./node_modules', import.meta.url)),
       },
     },
-    // https://vitejs.dev/config/#server-options
-    server: {
-      fs: {
-        // Allow serving files from one level up to the project root
-        allow: ['..'],
-      },
-    },
     plugins: [
       // vite-plugin-checker
       // https://github.com/fi3ework/vite-plugin-checker
@@ -47,7 +40,7 @@ export default defineConfig(async ({ command, mode }): Promise<UserConfig> => {
  *
  * @description ${pkg.description}
  * @author ${pkg.author.name} <${pkg.author.email}>
- * @copyright 2022-2023 By Masashi Yoshikawa All rights reserved.
+ * @copyright 2022-2024 By Masashi Yoshikawa All rights reserved.
  * @license ${pkg.license}
  * @version ${pkg.version}
  * @see {@link ${pkg.homepage}}
