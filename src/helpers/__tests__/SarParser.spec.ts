@@ -1,6 +1,8 @@
 import { test, describe, expect } from 'vitest';
-import SarParser from '@/helpers/SarParser';
+
 import type RegistryInterface from '@/interfaces/RegistryInterface';
+
+import SarParser from '@/helpers/SarParser';
 
 const parser = new SarParser();
 /**
@@ -16,7 +18,6 @@ function doTest(
   expected: any,
   registries: RegistryInterface[] = []
 ): void {
-  // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
   test(`schema ${schema} parses buffer to ${expected}`, () => {
     const buf = Uint8Array.from(array);
     const parsed = parser.parse(buf.buffer, schema, registries);

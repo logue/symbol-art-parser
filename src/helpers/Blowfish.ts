@@ -301,7 +301,7 @@ export default class Blowfish {
     const b = s[1][(x >>> 16) & 0xff];
     const c = s[2][(x >>> 8) & 0xff];
     const d = s[3][x & 0xff];
-    // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
+
     const ret = ((a + b) ^ c) + d;
     return ret >>> 0;
   }

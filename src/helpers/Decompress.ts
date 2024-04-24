@@ -1,4 +1,4 @@
-import Cursor from './Cursor';
+import Cursor from '@/helpers/Cursor';
 
 /**
  * @param buffer - buffer to decompress
@@ -7,7 +7,6 @@ export default function decompress(buffer: ArrayBuffer): ArrayBuffer {
   const readCursor = new Cursor(buffer);
   const writeCursor = new Cursor();
 
-  // eslint-disable-next-line no-constant-condition
   while (true) {
     let flag = readCursor.readBit();
 

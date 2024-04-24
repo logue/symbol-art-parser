@@ -1,11 +1,12 @@
+import type SymbolArtInterface from '@/interfaces/SymbolArtInterface';
+
+import Meta from '@/Meta';
 import BaseRegistry from '@/helpers/BaseRegistry';
 import Blowfish from '@/helpers/Blowfish';
 import Cursor from '@/helpers/Cursor';
 import Decompress from '@/helpers/Decompress';
-import Meta from '@/Meta';
 import SarParser from '@/helpers/SarParser';
 import Sounds from '@/interfaces/SoundType';
-import type SymbolArtInterface from '@/interfaces/SymbolArtInterface';
 
 /** SymbolArt Class */
 export default class SymbolArt {

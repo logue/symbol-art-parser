@@ -1,7 +1,8 @@
-import BaseRegistry from '@/helpers/BaseRegistry';
-import Cursor from '@/helpers/Cursor';
 import type { SchemaType } from '@/interfaces/RegistryInterface';
 import type RegistryInterface from '@/interfaces/RegistryInterface';
+
+import BaseRegistry from '@/helpers/BaseRegistry';
+import Cursor from '@/helpers/Cursor';
 
 /**
  * Abstract Parser.
@@ -27,7 +28,6 @@ export default abstract class AbstractParser {
     const cursor = new Cursor(buffer);
 
     const registry = [BaseRegistry]
-      // @ts-expect-error
       .concat(registries)
       .reduce((a, v) => Object.assign(a, v), {});
 

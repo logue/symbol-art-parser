@@ -1,8 +1,9 @@
-import AbstractParser from '@/helpers/AbstractParser';
 import type Cursor from '@/helpers/Cursor';
 import type LayerInterface from '@/interfaces/LayerInterface';
 import type RegistryInterface from '@/interfaces/RegistryInterface';
 import type SymbolArtInterface from '@/interfaces/SymbolArtInterface';
+
+import AbstractParser from '@/helpers/AbstractParser';
 
 /**
  * Sar Parser
@@ -121,7 +122,7 @@ export default class SarParser extends AbstractParser {
           registry,
         });
         name.push(c);
-      } catch (e) {
+      } catch (_e) {
         console.warn('[SymbolArt.SarParser] Unable parse charactor.');
         break;
       }
