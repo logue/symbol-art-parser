@@ -1,4 +1,5 @@
-import eslint from '@eslint/js';
+import globals from 'globals';
+import pluginJs from '@eslint/js';
 import eslintConfigPrettier from 'eslint-config-prettier';
 import tseslint from 'typescript-eslint';
 
@@ -8,18 +9,21 @@ import pluginTsdoc from 'eslint-plugin-tsdoc';
 /**
  * ESLint Config
  */
-export default tseslint.config(
+export default [
   {
     ignores: [
       '.vscode/',
-      '.yarn/',
       'dist/',
+      'docs/',
       'public/',
       'src/**/*.generated.*',
       'eslint.config.js',
+      'pnpm-lock.yaml',
     ],
   },
-  eslint.configs.recommended,
+  { files: ['**/*.{js,mjs,cjs,ts}'] },
+  { languageOptions: { globals: globals.browser } },
+  pluginJs.configs.recommended,
   ...tseslint.configs.recommended,
   ...tseslint.configs.stylistic,
   {
@@ -31,7 +35,6 @@ export default tseslint.config(
           'tsconfig.vitest.json',
         ],
         tsconfigRootDir: import.meta.dirname,
-        extraFileExtensions: ['.vue'],
         ecmaVersion: 'latest',
         sourceType: 'module',
       },
@@ -145,5 +148,5 @@ export default tseslint.config(
     },
   },
   // ...pluginVue.configs['flat/recommended'],
-  eslintConfigPrettier
-);
+  eslintConfigPrettier,
+];
