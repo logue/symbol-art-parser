@@ -28,7 +28,7 @@ export default abstract class AbstractParser {
     const cursor = new Cursor(buffer);
 
     const registry = [BaseRegistry]
-      .concat(registries)
+      .concat(...registries.map(r => r as any))
       .reduce((a, v) => Object.assign(a, v), {});
 
     return this.parseAttribute({ cursor, schema, registry });

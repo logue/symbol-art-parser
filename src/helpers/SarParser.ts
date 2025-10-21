@@ -122,8 +122,8 @@ export default class SarParser extends AbstractParser {
           registry,
         });
         name.push(c);
-      } catch (_e) {
-        console.warn('[SymbolArt.SarParser] Unable parse charactor.');
+      } catch (e) {
+        console.warn('[SymbolArt.SarParser] Unable parse charactor.', e);
         break;
       }
     }

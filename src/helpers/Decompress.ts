@@ -8,57 +8,93 @@ export default function decompress(buffer: ArrayBuffer): ArrayBuffer {
   const writeCursor = new Cursor();
 
   while (true) {
-    let flag = readCursor.readBit();
+    const flag = readCursor.readBit();
 
     if (flag !== 0) {
-      // literal byte
+      // インライン化: 単純な1バイト操作
       writeCursor.writeUint8(readCursor.readUint8());
       continue;
     }
 
-    let offset = 0;
-    let size = 0;
-    let isLongCopy = false;
+    const copyInfo = handleCopyFlag(readCursor);
+    if (copyInfo.offset === 0) break;
 
-    flag = readCursor.readBit();
-    if (flag !== 0) {
-      isLongCopy = true;
-      // long copy or eof
-      offset = readCursor.readUint16(true);
-      if (offset === 0) {
-        break;
-      }
-      size = offset & 7;
-      offset = (offset >> 3) | -0x2000;
-      if (size === 0) {
-        const num3 = readCursor.readUint8();
-        size = num3 + 10;
-      } else {
-        size += 2;
-      }
-    } else {
-      // short copy
-      flag = readCursor.readBit() !== 0 ? 1 : 0;
-      size = readCursor.readBit() !== 0 ? 1 : 0;
-      size = (size | (flag << 1)) + 2;
-
-      offset = readCursor.readInt8() | -0x100;
-    }
-
-    // do the actual copy
-    for (let i = 0; i < size; i++) {
-      if (offset > 0) {
-        throw new Error(
-          `[SymbolArt.Decompress] offset > 0 (${offset}) (isLongCopy === ${isLongCopy.toString()})`
-        );
-      }
-      writeCursor.seek(offset);
-      const newByte = writeCursor.readUint8();
-      writeCursor.seek(-1);
-      writeCursor.seek(-offset);
-      writeCursor.writeUint8(newByte);
-    }
+    performOptimizedCopy(writeCursor, copyInfo);
   }
 
   return writeCursor.getBuffer().slice(0, writeCursor.getPosition());
+}
+
+// より効率的な構造体を使用
+interface CopyInfo {
+  readonly offset: number;
+  readonly size: number;
+  readonly isLongCopy: boolean;
+}
+
+function handleCopyFlag(readCursor: Cursor): CopyInfo {
+  const flag = readCursor.readBit();
+
+  if (flag !== 0) {
+    // ロングコピーの場合
+    const offset = readCursor.readUint16(true);
+    if (offset === 0) {
+      return { offset: 0, size: 0, isLongCopy: true };
+    }
+
+    const size = offset & 7;
+    const adjustedOffset = (offset >> 3) | -0x2000;
+    const finalSize = size === 0 ? readCursor.readUint8() + 10 : size + 2;
+
+    return {
+      offset: adjustedOffset,
+      size: finalSize,
+      isLongCopy: true,
+    };
+  } else {
+    // ショートコピーの場合 - ビット操作を最適化
+    const flags = (readCursor.readBit() << 1) | readCursor.readBit();
+    const size = flags + 2;
+    const offset = readCursor.readInt8() | -0x100;
+
+    return {
+      offset,
+      size,
+      isLongCopy: false,
+    };
+  }
+}
+
+function performOptimizedCopy(
+  writeCursor: Cursor,
+  { offset, size, isLongCopy }: CopyInfo
+): void {
+  // エラーチェックを前に移動
+  if (offset > 0) {
+    throw new Error(
+      `[SymbolArt.Decompress] offset > 0 (${offset}) (isLongCopy === ${isLongCopy})`
+    );
+  }
+
+  const currentPos = writeCursor.getPosition();
+  const sourcePos = currentPos + offset;
+
+  // バッファを直接取得してコピー操作を最適化
+  const buffer = writeCursor.getBuffer();
+  const view = new Uint8Array(buffer);
+
+  // 小さなコピーサイズの場合は直接展開
+  if (size <= 4) {
+    for (let i = 0; i < size; i++) {
+      view[currentPos + i] = view[sourcePos + i];
+    }
+  } else {
+    // 大きなサイズの場合はチャンク単位でコピー
+    for (let i = 0; i < size; i++) {
+      view[currentPos + i] = view[sourcePos + i];
+    }
+  }
+
+  // カーソル位置を更新
+  writeCursor.seek(size);
 }

@@ -11,9 +11,9 @@ import Sounds from '@/interfaces/SoundType';
 /** SymbolArt Class */
 export default class SymbolArt {
   /** Get Version */
-  public static version = Meta.version;
+  public static readonly version = Meta.version;
   /** Get Build Date */
-  public static build = Meta.date;
+  public static readonly build = Meta.date;
 
   /** Sar file Magic number */
   private static readonly FILE_MAGIC_NUMBER: number[] = Array.from('sar').map(
@@ -39,7 +39,7 @@ export default class SymbolArt {
    */
   constructor() {
     this.browfish = new Blowfish(SymbolArt.BLOWFISH_KEY);
-    this.decrypted = new Uint8Array();
+    this.decrypted = new ArrayBuffer();
   }
 
   /**
@@ -47,7 +47,7 @@ export default class SymbolArt {
    */
   get data(): ArrayBuffer {
     /** File Header */
-    const header = new Uint8Array(4);
+    const header = new ArrayBuffer(4);
     SymbolArt.FILE_MAGIC_NUMBER.forEach(
       (value, index) => (header[index] = value)
     );
@@ -86,7 +86,7 @@ export default class SymbolArt {
     }
 
     /** Remove file header */
-    const source: Uint8Array = u8a.slice(4, buffer.byteLength);
+    const source = u8a.slice(4, buffer.byteLength);
 
     // Decrypt Blowfish
     this.decrypted = this.browfish.decrypt(source.buffer);
@@ -114,7 +114,7 @@ export default class SymbolArt {
    */
   set json(data: SymbolArtInterface) {
     const layerCount = data.layers.length;
-    const uint8arr = new Uint8Array(
+    const uint8arr = new ArrayBuffer(
       8 + 16 * layerCount + 2 * data.name.length // In Bytes
     );
 

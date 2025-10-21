@@ -1,5 +1,5 @@
 {
-  "extends": ["@tsconfig/node-lts/tsconfig.json"],
+  "extends": "@tsconfig/node-lts/tsconfig.json",
   "include": ["env.d.ts", "vite.config.*", "vitest.config.*", "package.json"],
   "compilerOptions": {
     "composite": true,
