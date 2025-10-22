@@ -1,8 +1,9 @@
 import { test, describe, expect } from 'vitest';
 
-import type RegistryInterface from '@/interfaces/RegistryInterface';
+import Cursor from '../Cursor';
+import SarParser from '../SarParser';
 
-import SarParser from '@/helpers/SarParser';
+import type RegistryInterface from '../../interfaces/RegistryInterface';
 
 const parser = new SarParser();
 /**
@@ -61,20 +62,33 @@ describe('struct parser', () => {
     });
   });
 
-  /*
   describe('complex schemas', () => {
-    const func = (cursor: Cursor, registry: RegistryInterface) => {
-      const size = parser.parseAttribute({ cursor, 'u8', registry });
-      const vals = [];
-      for (let i = 0; i < size; i++) {
-        vals.push(parser.parseAttribute({cursor, 'u8', registry}));
-      }
-      return vals;
-    };
-
-    doTest(func, [2, 0, 1], [0, 1]);
-    doTest(func, [4, 0, 0, 0, 1], [0, 0, 0, 1]);
-    doTest(func, [0], []);
+    test('should handle nested structures', () => {
+      const buffer = new Uint8Array([1, 2, 3]).buffer;
+      const cursor = new Cursor(buffer);
+      const schema = { nested: { x: 'u8', y: 'u8' }, z: 'u8' };
+      const parsed = parser.parseAttribute({ cursor, schema, registry: {} });
+      expect(parsed).toHaveProperty('nested');
+      expect(parsed).toHaveProperty('z');
+    });
   });
-  */
+
+  describe('error handling', () => {
+    test('should handle invalid buffer', () => {
+      const buf = new ArrayBuffer(0);
+      expect(() => parser.parse(buf, 'u8', [])).toThrow();
+    });
+
+    test('should handle buffer underrun', () => {
+      const buf = Uint8Array.from([1]).buffer;
+      expect(() => parser.parse(buf, 'u32', [])).toThrow();
+    });
+  });
+
+  describe('edge cases', () => {
+    doTest('u8', [0], 0);
+    doTest('u8', [255], 255);
+    doTest('i8', [128], -128);
+    doTest('i8', [127], 127);
+  });
 });
