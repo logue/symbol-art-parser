@@ -17,7 +17,7 @@ export default class SymbolArt {
 
   /** Sar file Magic number */
   private static readonly FILE_MAGIC_NUMBER: number[] = Array.from('sar').map(
-    (c: string) => c.charCodeAt(0)
+    c => c.charCodeAt(0)
   );
 
   /** Decrypt Key */
@@ -48,10 +48,11 @@ export default class SymbolArt {
   get data(): ArrayBuffer {
     /** File Header */
     const header = new ArrayBuffer(4);
+    const headerView = new Uint8Array(header);
     SymbolArt.FILE_MAGIC_NUMBER.forEach(
-      (value, index) => (header[index] = value)
+      (value, index) => (headerView[index] = value)
     );
-    header[3] = SymbolArt.FLAG_NOT_COMPRESSED;
+    headerView[3] = SymbolArt.FLAG_NOT_COMPRESSED;
     /** Crypted Data */
     const data = this.browfish.encrypt(this.decrypted);
     // Prepend crypted data to file header
@@ -94,16 +95,15 @@ export default class SymbolArt {
     if (flag === SymbolArt.FLAG_COMPRESSED) {
       // Byte wise XOR by 0x95 of input from after flag bit
       // to the maximum multiple of 8 bytes on input
-      this.decrypted = Decompress(source.map(v => v ^ 0x95).buffer);
+      const xorBuffer = source.map(v => v ^ 0x95);
+      this.decrypted = Decompress(xorBuffer.buffer);
     }
   }
 
   /** Get JSON Parsed SymbolArt Data */
   get json(): SymbolArtInterface {
     const sar = new SarParser();
-    const registry = [BaseRegistry]
-      .concat([])
-      .reduce((a, v) => Object.assign(a, v), {});
+    const registry = { ...BaseRegistry };
     return sar.parseSar(new Cursor(this.decrypted), registry);
   }
 
@@ -114,9 +114,10 @@ export default class SymbolArt {
    */
   set json(data: SymbolArtInterface) {
     const layerCount = data.layers.length;
-    const uint8arr = new ArrayBuffer(
+    const buffer = new ArrayBuffer(
       8 + 16 * layerCount + 2 * data.name.length // In Bytes
     );
+    const uint8arr = new Uint8Array(buffer);
 
     let pos = 0;
     uint8arr[pos++] = data.authorId & 0xff;
@@ -126,7 +127,7 @@ export default class SymbolArt {
     uint8arr[pos++] = layerCount & 0xff;
     uint8arr[pos++] = data.size.height & 0xff;
     uint8arr[pos++] = data.size.width & 0xff;
-    uint8arr[pos++] = Sounds[data.sound] ?? 1 & 0xff;
+    uint8arr[pos++] = (Sounds[data.sound] ?? 1) & 0xff;
 
     data.layers.forEach(layer => {
       uint8arr[pos++] = layer.position.topLeft.x & 0xff;
@@ -158,7 +159,7 @@ export default class SymbolArt {
       // Write upperByte
       uint8arr[pos++] = (charCode >> 8) & 0xff;
     }
-    this.decrypted = uint8arr;
+    this.decrypted = buffer;
   }
 
   /**

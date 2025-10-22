@@ -50,7 +50,14 @@ export default [
         '@typescript-eslint/parser': ['.ts', '.tsx'],
       },
       'import/resolver': {
-        typescript: true,
+        typescript: {
+          alwaysTryTypes: true,
+          project: [
+            'tsconfig.app.json',
+            'tsconfig.node.json',
+            'tsconfig.vitest.json',
+          ],
+        },
         node: true,
         alias: {
           map: [

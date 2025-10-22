@@ -1,4 +1,4 @@
-import type Cursor from '@/helpers/Cursor';
+import type Cursor from './Cursor';
 import type RegistryInterface from '@/interfaces/RegistryInterface';
 
 export default {

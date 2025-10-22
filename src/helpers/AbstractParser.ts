@@ -1,8 +1,8 @@
+import BaseRegistry from './BaseRegistry';
+import Cursor from './Cursor';
+
 import type { SchemaType } from '@/interfaces/RegistryInterface';
 import type RegistryInterface from '@/interfaces/RegistryInterface';
-
-import BaseRegistry from '@/helpers/BaseRegistry';
-import Cursor from '@/helpers/Cursor';
 
 /**
  * Abstract Parser.

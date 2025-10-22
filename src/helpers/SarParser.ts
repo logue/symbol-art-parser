@@ -1,9 +1,9 @@
-import type Cursor from '@/helpers/Cursor';
+import AbstractParser from './AbstractParser';
+
+import type Cursor from './Cursor';
 import type LayerInterface from '@/interfaces/LayerInterface';
 import type RegistryInterface from '@/interfaces/RegistryInterface';
 import type SymbolArtInterface from '@/interfaces/SymbolArtInterface';
-
-import AbstractParser from '@/helpers/AbstractParser';
 
 /**
  * Sar Parser

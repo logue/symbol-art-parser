@@ -282,8 +282,8 @@ packages:
     peerDependencies:
       eslint: ^6.0.0 || ^7.0.0 || >=8.0.0
 
-  '@eslint-community/regexpp@4.12.1':
-    resolution: {integrity: sha512-CCZCDJuduB9OUkFkY2IgppNZMi2lBQgD2qzwXkEia16cge2pijY/aXi96CJMquDMn3nJdlPV1A5KrJEXwfLNzQ==}
+  '@eslint-community/regexpp@4.12.2':
+    resolution: {integrity: sha512-EriSTlt5OC9/7SXkRSCAhfSxxoSUgBm33OH+IkwbdpgoqsSsUg7y3uh+IICI/Qg4BBWr3U2i39RpmycbxMq4ew==}
     engines: {node: ^12.0.0 || ^14.0.0 || >=16.0.0}
 
   '@eslint/config-array@0.21.1':
@@ -345,11 +345,11 @@ packages:
   '@jridgewell/sourcemap-codec@1.5.5':
     resolution: {integrity: sha512-cYQ9310grqxueWbl+WuIUIaiUaDcj7WOq5fVhEljNVgRfOUhY9fy2zTvfoqWsnebh8Sl70VScFbICvJnLKB0Og==}
 
-  '@microsoft/api-extractor-model@7.31.1':
-    resolution: {integrity: sha512-Dhnip5OFKbl85rq/ICHBFGhV4RA5UQSl8AC/P/zoGvs+CBudPkatt5kIhMGiYgVPnUWmfR6fcp38+1AFLYNtUw==}
+  '@microsoft/api-extractor-model@7.31.2':
+    resolution: {integrity: sha512-d0WwxwBLZaHokTrOngqHVkQK59NlveV5RE4wEpjaybhSNmEK9N7KPCcT5n8JcpH6k5o6AhxG47g1km2D7BZw8Q==}
 
-  '@microsoft/api-extractor@7.53.1':
-    resolution: {integrity: sha512-bul5eTNxijLdDBqLye74u9494sRmf+9QULtec9Od0uHnifahGeNt8CC4/xCdn7mVyEBrXIQyQ5+sc4Uc0QfBSA==}
+  '@microsoft/api-extractor@7.53.2':
+    resolution: {integrity: sha512-hG3+wJY6aZlkQhGpUbhq1C5F1uJLsmDjrwVea+WT18RbD1XtIGn/c4uyMF7gdXLjLNwErB47hnRk9QNjpEHUWA==}
     hasBin: true
 
   '@microsoft/tsdoc-config@0.17.1':
@@ -499,8 +499,8 @@ packages:
   '@rtsao/scc@1.1.0':
     resolution: {integrity: sha512-zt6OdqaDoOnJ1ZYsCYGt9YmWzDXl4vQdKTyJev62gFhRGKdx7mcT54V9KIjg+d2wi9EXsPvAPKe7i7WjfVWB8g==}
 
-  '@rushstack/node-core-library@5.17.0':
-    resolution: {integrity: sha512-24vt1GbHN6kyIglRMTVpyEiNRRRJK8uZHc1XoGAhmnTDKnrWet8OmOpImMswJIe6gM78eV8cMg1HXwuUHkSSgg==}
+  '@rushstack/node-core-library@5.17.1':
+    resolution: {integrity: sha512-Mtcsa0aRJgYJOpeTe4qElLTRBlijNohdliq/xOhqce5rlzMIfLr73j9wUuj6GYPZPbG0S+is/RL2l0m/vnL55A==}
     peerDependencies:
       '@types/node': '*'
     peerDependenciesMeta:
@@ -518,16 +518,16 @@ packages:
   '@rushstack/rig-package@0.6.0':
     resolution: {integrity: sha512-ZQmfzsLE2+Y91GF15c65L/slMRVhF6Hycq04D4TwtdGaUAbIXXg9c5pKA5KFU7M4QMaihoobp9JJYpYcaY3zOw==}
 
-  '@rushstack/terminal@0.19.1':
-    resolution: {integrity: sha512-jsBuSad67IDVMO2yp0hDfs0OdE4z3mDIjIL2pclDT3aEJboeZXE85e1HjuD0F6JoW3XgHvDwoX+WOV+AVTDQeA==}
+  '@rushstack/terminal@0.19.2':
+    resolution: {integrity: sha512-SJLC+6oUrJ0OOpuuwXxhktCTE3jeYVIwtvREdNhbcnVQrYGaDJpAoBgNVfw+VH0pTPpFLBqoPHsRRz7mj7WlbA==}
     peerDependencies:
       '@types/node': '*'
     peerDependenciesMeta:
       '@types/node':
         optional: true
 
-  '@rushstack/ts-command-line@5.1.1':
-    resolution: {integrity: sha512-HPzFsUcr+wZ3oQI08Ec/E6cuiAVHKzrXZGHhwiwIGygAFiqN5QzX+ff30n70NU2WyE26CykgMwBZZSSyHCJrzA==}
+  '@rushstack/ts-command-line@5.1.2':
+    resolution: {integrity: sha512-jn0EnSefYrkZDrBGd6KGuecL84LI06DgzL4hVQ46AUijNBt2nRU/ST4HhrfII/w91siCd1J/Okvxq/BS75Me/A==}
 
   '@tsconfig/node-lts@22.0.2':
     resolution: {integrity: sha512-Kgq5yXTvnUnvlhob0xJpOH4na9PWtuFhHSf94MpDwnENWgiFeJKDNANQV2MT1WpXZYkK2WSWfVYKhVkR7bc8TA==}
@@ -1323,8 +1323,8 @@ packages:
     resolution: {integrity: sha512-w9UMqWwJxHNOvoNzSJ2oPF5wvYcvP7jUvYzhp67yEhTi17ZDBBC1z9pTdGuzjD+EFIqLSYRweZjqfiPzQ06Ebg==}
     engines: {node: '>= 0.4'}
 
-  get-tsconfig@4.12.0:
-    resolution: {integrity: sha512-LScr2aNr2FbjAjZh2C6X6BxRx1/x+aTDExct/xyq2XKbYOiG5c0aK7pMsSuyc0brz3ibr/lbQiHD9jzt4lccJw==}
+  get-tsconfig@4.13.0:
+    resolution: {integrity: sha512-1VKTZJCwBrvbd+Wn3AOgQP/2Av+TfTCOlE4AcRJE72W1ksZXbAx8PPBR9RzgTeSPzlPMHrbANMH3LbltH73wxQ==}
 
   glob-parent@5.1.2:
     resolution: {integrity: sha512-AOIgSQCepiJYwP3ARnGx+5VnTu2HBYdzbGP45eLw1vr3zB3vZLeyed1sC9hnbcOc9/SrMyM5RPQrkGz4aS9Zow==}
@@ -2493,7 +2493,7 @@ snapshots:
       eslint: 9.38.0
       eslint-visitor-keys: 3.4.3
 
-  '@eslint-community/regexpp@4.12.1': {}
+  '@eslint-community/regexpp@4.12.2': {}
 
   '@eslint/config-array@0.21.1':
     dependencies:
@@ -2562,23 +2562,23 @@ snapshots:
 
   '@jridgewell/sourcemap-codec@1.5.5': {}
 
-  '@microsoft/api-extractor-model@7.31.1(@types/node@24.9.1)':
+  '@microsoft/api-extractor-model@7.31.2(@types/node@24.9.1)':
     dependencies:
       '@microsoft/tsdoc': 0.15.1
       '@microsoft/tsdoc-config': 0.17.1
-      '@rushstack/node-core-library': 5.17.0(@types/node@24.9.1)
+      '@rushstack/node-core-library': 5.17.1(@types/node@24.9.1)
     transitivePeerDependencies:
       - '@types/node'
 
-  '@microsoft/api-extractor@7.53.1(@types/node@24.9.1)':
+  '@microsoft/api-extractor@7.53.2(@types/node@24.9.1)':
     dependencies:
-      '@microsoft/api-extractor-model': 7.31.1(@types/node@24.9.1)
+      '@microsoft/api-extractor-model': 7.31.2(@types/node@24.9.1)
       '@microsoft/tsdoc': 0.15.1
       '@microsoft/tsdoc-config': 0.17.1
-      '@rushstack/node-core-library': 5.17.0(@types/node@24.9.1)
+      '@rushstack/node-core-library': 5.17.1(@types/node@24.9.1)
       '@rushstack/rig-package': 0.6.0
-      '@rushstack/terminal': 0.19.1(@types/node@24.9.1)
-      '@rushstack/ts-command-line': 5.1.1(@types/node@24.9.1)
+      '@rushstack/terminal': 0.19.2(@types/node@24.9.1)
+      '@rushstack/ts-command-line': 5.1.2(@types/node@24.9.1)
       lodash: 4.17.21
       minimatch: 10.0.3
       resolve: 1.22.11
@@ -2694,7 +2694,7 @@ snapshots:
 
   '@rtsao/scc@1.1.0': {}
 
-  '@rushstack/node-core-library@5.17.0(@types/node@24.9.1)':
+  '@rushstack/node-core-library@5.17.1(@types/node@24.9.1)':
     dependencies:
       ajv: 8.13.0
       ajv-draft-04: 1.0.0(ajv@8.13.0)
@@ -2716,17 +2716,17 @@ snapshots:
       resolve: 1.22.11
       strip-json-comments: 3.1.1
 
-  '@rushstack/terminal@0.19.1(@types/node@24.9.1)':
+  '@rushstack/terminal@0.19.2(@types/node@24.9.1)':
     dependencies:
-      '@rushstack/node-core-library': 5.17.0(@types/node@24.9.1)
+      '@rushstack/node-core-library': 5.17.1(@types/node@24.9.1)
       '@rushstack/problem-matcher': 0.1.1(@types/node@24.9.1)
       supports-color: 8.1.1
     optionalDependencies:
       '@types/node': 24.9.1
 
-  '@rushstack/ts-command-line@5.1.1(@types/node@24.9.1)':
+  '@rushstack/ts-command-line@5.1.2(@types/node@24.9.1)':
     dependencies:
-      '@rushstack/terminal': 0.19.1(@types/node@24.9.1)
+      '@rushstack/terminal': 0.19.2(@types/node@24.9.1)
       '@types/argparse': 1.0.38
       argparse: 1.0.10
       string-argv: 0.3.2
@@ -2761,7 +2761,7 @@ snapshots:
 
   '@typescript-eslint/eslint-plugin@8.46.2(@typescript-eslint/parser@8.46.2(eslint@9.38.0)(typescript@5.9.3))(eslint@9.38.0)(typescript@5.9.3)':
     dependencies:
-      '@eslint-community/regexpp': 4.12.1
+      '@eslint-community/regexpp': 4.12.2
       '@typescript-eslint/parser': 8.46.2(eslint@9.38.0)(typescript@5.9.3)
       '@typescript-eslint/scope-manager': 8.46.2
       '@typescript-eslint/type-utils': 8.46.2(eslint@9.38.0)(typescript@5.9.3)
@@ -3400,7 +3400,7 @@ snapshots:
 
   eslint-import-context@0.1.9(unrs-resolver@1.11.1):
     dependencies:
-      get-tsconfig: 4.12.0
+      get-tsconfig: 4.13.0
       stable-hash-x: 0.2.0
     optionalDependencies:
       unrs-resolver: 1.11.1
@@ -3422,7 +3422,7 @@ snapshots:
       debug: 4.4.3
       eslint: 9.38.0
       eslint-import-context: 0.1.9(unrs-resolver@1.11.1)
-      get-tsconfig: 4.12.0
+      get-tsconfig: 4.13.0
       is-bun-module: 2.0.0
       stable-hash-x: 0.2.0
       tinyglobby: 0.2.15
@@ -3514,7 +3514,7 @@ snapshots:
   eslint@9.38.0:
     dependencies:
       '@eslint-community/eslint-utils': 4.9.0(eslint@9.38.0)
-      '@eslint-community/regexpp': 4.12.1
+      '@eslint-community/regexpp': 4.12.2
       '@eslint/config-array': 0.21.1
       '@eslint/config-helpers': 0.4.1
       '@eslint/core': 0.16.0
@@ -3689,7 +3689,7 @@ snapshots:
       es-errors: 1.3.0
       get-intrinsic: 1.3.0
 
-  get-tsconfig@4.12.0:
+  get-tsconfig@4.13.0:
     dependencies:
       resolve-pkg-maps: 1.0.0
 
@@ -4645,7 +4645,7 @@ snapshots:
 
   vite-plugin-dts@4.5.4(@types/node@24.9.1)(rollup@4.52.5)(typescript@5.9.3)(vite@7.1.11(@types/node@24.9.1)(yaml@2.8.1)):
     dependencies:
-      '@microsoft/api-extractor': 7.53.1(@types/node@24.9.1)
+      '@microsoft/api-extractor': 7.53.2(@types/node@24.9.1)
       '@rollup/pluginutils': 5.3.0(rollup@4.52.5)
       '@volar/typescript': 2.4.23
       '@vue/language-core': 2.2.0(typescript@5.9.3)

@@ -19,28 +19,19 @@
     "url": "https://logue.dev/"
   },
   "homepage": "https://github.com/logue/symbol-art-parser",
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:logue/symbol-art-parser.git"
-  },
-  "bugs": {
-    "url": "https://github.com/logue/symbol-art-parser.js/issues"
-  },
+  "repository": "git@github.com:logue/symbol-art-parser.git",
+  "bugs": "https://github.com/logue/symbol-art-parser/issues",
   "files": [
     "dist"
   ],
   "main": "dist/index.umd.js",
   "module": "dist/index.es.js",
-  "jsdelivr": "dist/index.iife.js",
-  "unpkg": "dist/index.iife.js",
-  "types": "dist/src/index.d.ts",
+  "types": "dist/index.d.ts",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.es.js",
-      "require": "./dist/index.umd.js",
-      "jsdelivr": "./dist/index.iife.js",
-      "unpkg": "./dist/index.iife.js",
-      "types": "./dist/src/index.d.ts"
+      "require": "./dist/index.umd.js"
     }
   },
   "engines": {
@@ -53,7 +44,7 @@
     "dev": "vite",
     "test": "vitest",
     "clean": "rimraf node_modules/.vite",
-    "build": "run-p type-check \"build-only {@}\" --",
+    "build": "run-p type-check build-only",
     "build:docs": "vite build --mode=docs",
     "build:clean": "rimraf dist",
     "build-only": "vite build",
@@ -88,11 +79,6 @@
     "vite-plugin-checker": "^0.11.0",
     "vite-plugin-dts": "^4.5.4",
     "vitest": "^3.2.4"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
   },
   "lint-staged": {
     "*.{js,ts,json,yml,yaml,htm,html}": "eslint --fix --cache --cache-location ./node_modules/.vite/vite-plugin-eslint",

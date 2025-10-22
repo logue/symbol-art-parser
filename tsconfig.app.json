@@ -5,9 +5,11 @@
   "compilerOptions": {
     "composite": true,
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
     "paths": {
       "@/*": ["./src/*"]
     },
-    "lib": ["dom", "es2015", "scripthost"]
+    "lib": ["ES2022", "DOM", "DOM.Iterable"]
   }
 }
