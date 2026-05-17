@@ -3,7 +3,7 @@ import pluginJs from '@eslint/js';
 import eslintConfigPrettier from 'eslint-config-prettier';
 import tseslint from 'typescript-eslint';
 
-import pluginImport from 'eslint-plugin-import';
+import pluginImport from 'eslint-plugin-import-x';
 import pluginTsdoc from 'eslint-plugin-tsdoc';
 
 /**
@@ -40,18 +40,19 @@ export default [
       },
     },
     plugins: {
-      import: pluginImport,
+      'import-x': pluginImport,
       tsdoc: pluginTsdoc,
     },
     settings: {
       // This will do the trick
-      'import/parsers': {
+      'import-x/parsers': {
         espree: ['.js', '.cjs', '.mjs', '.jsx'],
         '@typescript-eslint/parser': ['.ts', '.tsx'],
       },
-      'import/resolver': {
+      'import-x/resolver': {
         typescript: {
           alwaysTryTypes: true,
+          noWarnOnMultipleProjects: true,
           project: [
             'tsconfig.app.json',
             'tsconfig.node.json',
@@ -75,7 +76,15 @@ export default [
       '@typescript-eslint/consistent-type-imports': 'error',
       '@typescript-eslint/no-import-type-side-effects': 'error',
       // ...importPlugin.configs["recommended"].rules,
-      'no-unused-vars': 'warn',
+      'no-unused-vars': 'off',
+      '@typescript-eslint/no-unused-vars': [
+        'warn',
+        {
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+          caughtErrorsIgnorePattern: '^_',
+        },
+      ],
       // const lines: string[] = []; style
       '@typescript-eslint/array-type': [
         'error',
@@ -112,12 +121,12 @@ export default [
       // Fix for vite env.d.ts.
       '@typescript-eslint/triple-slash-reference': 'off',
       // Fix for Vue setup style
-      'import/default': 'off',
+      'import-x/default': 'off',
       // Fix for Vue setup style
-      'import/no-default-export': 'off',
+      'import-x/no-default-export': 'off',
       // Sort Import Order.
       // see https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/order.md#importorder-enforce-a-convention-in-module-import-order
-      'import/order': [
+      'import-x/order': [
         'error',
         {
           groups: [
