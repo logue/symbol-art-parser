@@ -4,6 +4,7 @@ import eslintConfigPrettier from 'eslint-config-prettier';
 import tseslint from 'typescript-eslint';
 
 import pluginImport from 'eslint-plugin-import-x';
+import pluginJsonSchemaValidator from 'eslint-plugin-json-schema-validator';
 import pluginTsdoc from 'eslint-plugin-tsdoc';
 
 /**
@@ -27,6 +28,7 @@ export default [
   ...tseslint.configs.recommended,
   ...tseslint.configs.stylistic,
   {
+    files: ['**/*.{js,mjs,cjs,ts}'],
     languageOptions: {
       parserOptions: {
         project: [
@@ -164,5 +166,12 @@ export default [
     },
   },
   // ...pluginVue.configs['flat/recommended'],
+  ...pluginJsonSchemaValidator.configs.base,
+  {
+    files: ['schema.json'],
+    rules: {
+      'json-schema-validator/no-invalid': 'error',
+    },
+  },
   eslintConfigPrettier,
 ];
