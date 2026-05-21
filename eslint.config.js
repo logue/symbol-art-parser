@@ -33,6 +33,7 @@ export default [
       parserOptions: {
         project: [
           'tsconfig.app.json',
+          'tsconfig.demo.json',
           'tsconfig.node.json',
           'tsconfig.vitest.json',
         ],
@@ -57,6 +58,7 @@ export default [
           noWarnOnMultipleProjects: true,
           project: [
             'tsconfig.app.json',
+            'tsconfig.demo.json',
             'tsconfig.node.json',
             'tsconfig.vitest.json',
           ],

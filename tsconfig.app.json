@@ -1,6 +1,6 @@
 {
   "extends": "@tsconfig/node-lts/tsconfig.json",
-  "include": ["env.d.ts", "src/**/*"],
+  "include": ["env.d.ts", "src/**/*", "demo/**/*"],
   "exclude": ["src/**/__tests__/*"],
   "compilerOptions": {
     "composite": true,

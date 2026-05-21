@@ -18,7 +18,7 @@ export default defineConfig(({ mode }): UserConfig => {
 
   const config: UserConfig = {
     // https://vitejs.dev/config/shared-options.html#base
-    base: '/symbol-art-parser/',
+    base: mode === 'docs' ? './' : '/symbol-art-parser/',
     // https://vitejs.dev/config/shared-options.html#define
     define: {
       'process.env': {},
