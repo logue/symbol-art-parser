@@ -82,8 +82,5 @@
   "lint-staged": {
     "*.{js,ts,json,yml,yaml,htm,html}": "eslint --fix --cache --cache-location ./node_modules/.vite/vite-plugin-eslint",
     "*": "prettier -w -u"
-  },
-  "dependencies": {
-    "encoding-japanese": "^2.2.0"
   }
 }
