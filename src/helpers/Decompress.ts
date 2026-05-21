@@ -78,23 +78,11 @@ function performOptimizedCopy(
 
   const currentPos = writeCursor.getPosition();
   const sourcePos = currentPos + offset;
-
-  // バッファを直接取得してコピー操作を最適化
-  const buffer = writeCursor.getBuffer();
-  const view = new Uint8Array(buffer);
-
-  // 小さなコピーサイズの場合は直接展開
-  if (size <= 4) {
-    for (let i = 0; i < size; i++) {
-      view[currentPos + i] = view[sourcePos + i];
-    }
-  } else {
-    // 大きなサイズの場合はチャンク単位でコピー
-    for (let i = 0; i < size; i++) {
-      view[currentPos + i] = view[sourcePos + i];
-    }
+  // Cursor API経由で書き込むことで、内部バッファの自動拡張と
+  // オーバーラップコピー（LZ展開）を正しく処理する。
+  for (let i = 0; i < size; i++) {
+    const readPos = sourcePos + i;
+    const value = new Uint8Array(writeCursor.getBuffer())[readPos] ?? 0;
+    writeCursor.writeUint8(value);
   }
-
-  // カーソル位置を更新
-  writeCursor.seek(size);
 }

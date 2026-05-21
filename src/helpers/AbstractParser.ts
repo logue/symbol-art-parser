@@ -12,7 +12,7 @@ import type RegistryInterface from '@/interfaces/RegistryInterface';
  * @see https://github.com/HybridEidolon/saredit
  */
 export default abstract class AbstractParser {
-  protected readonly decoder = new TextDecoder('utf-16');
+  protected readonly decoder = new TextDecoder('utf-16le');
 
   /**
    * Get parsed struct
