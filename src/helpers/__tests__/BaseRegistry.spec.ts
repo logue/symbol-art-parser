@@ -1,4 +1,4 @@
-import { test, describe, expect, beforeEach } from 'vitest';
+import { beforeEach, describe, expect, test } from '@rstest/core';
 
 import BaseRegistry from '../BaseRegistry';
 import Cursor from '../Cursor';
@@ -76,27 +76,27 @@ describe('BaseRegistry', () => {
 
   describe('floating point numbers', () => {
     test('should read f32 big endian', () => {
-      cursor.writeFloat32(3.14159, false);
+      cursor.writeFloat32(Math.PI, false);
       cursor.seek(-4); // Reset position
-      expect(BaseRegistry.f32?.(cursor)).toBeCloseTo(3.14159);
+      expect(BaseRegistry.f32?.(cursor)).toBeCloseTo(Math.PI);
     });
 
     test('should read f32 little endian', () => {
-      cursor.writeFloat32(3.14159, true);
+      cursor.writeFloat32(Math.PI, true);
       cursor.seek(-4); // Reset position
-      expect(BaseRegistry.f32le?.(cursor)).toBeCloseTo(3.14159);
+      expect(BaseRegistry.f32le?.(cursor)).toBeCloseTo(Math.PI);
     });
 
     test('should read f64 big endian', () => {
-      cursor.writeFloat64(3.141592653589793, false);
+      cursor.writeFloat64(Math.PI, false);
       cursor.seek(-8); // Reset position
-      expect(BaseRegistry.f64?.(cursor)).toBeCloseTo(3.141592653589793);
+      expect(BaseRegistry.f64?.(cursor)).toBeCloseTo(Math.PI);
     });
 
     test('should read f64 little endian', () => {
-      cursor.writeFloat64(3.141592653589793, true);
+      cursor.writeFloat64(Math.PI, true);
       cursor.seek(-8); // Reset position
-      expect(BaseRegistry.f64le?.(cursor)).toBeCloseTo(3.141592653589793);
+      expect(BaseRegistry.f64le?.(cursor)).toBeCloseTo(Math.PI);
     });
   });
 

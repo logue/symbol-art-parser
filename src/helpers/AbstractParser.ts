@@ -1,8 +1,13 @@
+import type RegistryInterface from '@/interfaces/RegistryInterface';
+import type { SchemaType } from '@/types/SchemaType';
 import BaseRegistry from './BaseRegistry';
 import Cursor from './Cursor';
 
-import type { SchemaType } from '@/interfaces/RegistryInterface';
-import type RegistryInterface from '@/interfaces/RegistryInterface';
+type ParsedValue = number | string | boolean | Record<string, unknown>;
+type SchemaNode =
+  | SchemaType
+  | Record<string, unknown>
+  | ((cursor: Cursor, registry: RegistryInterface) => ParsedValue);
 
 /**
  * Abstract Parser.
@@ -22,14 +27,15 @@ export default abstract class AbstractParser {
    */
   parse(
     buffer: ArrayBuffer,
-    schema: SchemaType,
-    registries: RegistryInterface[] = []
-  ): any {
+    schema: SchemaNode,
+    registries: RegistryInterface[] = [],
+  ): ParsedValue {
     const cursor = new Cursor(buffer);
 
-    const registry = [BaseRegistry]
-      .concat(...registries.map(r => r as any))
-      .reduce((a, v) => Object.assign(a, v), {});
+    const registry = [BaseRegistry, ...registries].reduce<RegistryInterface>(
+      (accumulator, value) => Object.assign(accumulator, value),
+      {} as RegistryInterface,
+    );
 
     return this.parseAttribute({ cursor, schema, registry });
   }
@@ -44,39 +50,47 @@ export default abstract class AbstractParser {
     registry,
   }: {
     cursor: Cursor;
-    schema: any;
+    schema: SchemaNode;
     registry: RegistryInterface;
-  }): any {
+  }): ParsedValue {
     switch (typeof schema) {
       case 'string': {
-        // For positions, name, and other properties
-        // References a schema/parser in the registry
+        const registryValue =
+          registry[schema as keyof RegistryInterface] ??
+          BaseRegistry[schema as keyof RegistryInterface];
+
+        if (typeof registryValue !== 'function') {
+          throw new Error(`Unknown schema: ${schema}`);
+        }
+
         return this.parseAttribute({
           cursor,
-          schema: registry[schema as SchemaType],
+          schema: registryValue,
           registry,
-        });
+        }) as ParsedValue;
       }
       case 'function': {
-        // For color
-        // Cursor parse function
-        return schema(cursor, registry);
+        return schema(cursor, registry) as ParsedValue;
       }
       case 'object': {
-        // For the object itself and position 2D vectors
-        // Schema object. Parse every attribute.
-        const parsedObject: Record<string, () => any> = {};
+        if (schema === null) {
+          throw new Error('Invalid schema: null');
+        }
 
-        Object.keys(schema).forEach(k => {
-          const v = schema[k];
-          const value = this.parseAttribute({
+        const parsedObject: Record<string, ParsedValue> = {};
+        const schemaObject = schema as Record<string, SchemaNode>;
+
+        Object.entries(schemaObject).forEach(([key, value]) => {
+          parsedObject[key] = this.parseAttribute({
             cursor,
-            schema: v,
+            schema: value,
             registry,
           });
-          parsedObject[k] = value;
         });
         return parsedObject;
+      }
+      default: {
+        throw new Error(`Unsupported schema type: ${typeof schema}`);
       }
     }
   }

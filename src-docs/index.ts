@@ -1,5 +1,4 @@
-import SymbolArt from '../src';
-
+import SymbolArt from '@/index';
 import type LayerInterface from '@/interfaces/LayerInterface';
 import type SymbolArtInterface from '@/interfaces/SymbolArtInterface';
 
@@ -11,7 +10,7 @@ const baseUrl = import.meta.env.BASE_URL;
 
 if (fileInput) {
   document.addEventListener('DOMContentLoaded', () => {
-    fileInput.addEventListener('change', async event => {
+    fileInput.addEventListener('change', async (event) => {
       event.preventDefault();
       const output = document.getElementById('output');
       if (output) output.textContent = 'Loading...';
@@ -183,7 +182,7 @@ class MonotoneCanvas {
 
   /** Preload source image and draw result. */
   private init(): void {
-    this.preloadCanvas().then(value => {
+    this.preloadCanvas().then((value) => {
       this.draw(value);
     });
   }
@@ -214,13 +213,13 @@ class MonotoneCanvas {
             }
             resolve(canvas);
           },
-          false
+          false,
         );
         img.addEventListener('error', () => {
           MonotoneCanvas.preloadCache.delete(this.fileSrc);
           reject(new Error(`Failed to load symbol image: ${this.fileSrc}`));
         });
-      }
+      },
     );
 
     MonotoneCanvas.preloadCache.set(this.fileSrc, promise);
@@ -244,8 +243,6 @@ class MonotoneCanvas {
 }
 
 (() => {
-  'use strict';
-
   const getStoredTheme = () => localStorage.getItem('theme');
   const setStoredTheme = (theme: string) =>
     localStorage.setItem('theme', theme);
@@ -276,7 +273,7 @@ class MonotoneCanvas {
 
   const showActiveTheme = (theme: string, focus = false) => {
     const themeSwitcher = document.querySelector(
-      '#bd-theme'
+      '#bd-theme',
     ) as HTMLElement | null;
 
     if (!themeSwitcher) {
@@ -286,7 +283,7 @@ class MonotoneCanvas {
     const themeSwitcherText = document.querySelector('#bd-theme-text');
     const activeThemeIcon = document.querySelector('.theme-icon-active use');
     const btnToActive = document.querySelector(
-      `[data-bs-theme-value="${theme}"]`
+      `[data-bs-theme-value="${theme}"]`,
     ) as HTMLElement | null;
 
     if (!themeSwitcherText || !activeThemeIcon || !btnToActive) {
@@ -296,7 +293,7 @@ class MonotoneCanvas {
     const svgUse = btnToActive.querySelector('svg use');
     const svgOfActiveBtn = svgUse?.getAttribute('href');
 
-    document.querySelectorAll('[data-bs-theme-value]').forEach(element => {
+    document.querySelectorAll('[data-bs-theme-value]').forEach((element) => {
       element.classList.remove('active');
       element.setAttribute('aria-pressed', 'false');
     });
@@ -327,7 +324,7 @@ class MonotoneCanvas {
   globalThis.addEventListener('DOMContentLoaded', () => {
     showActiveTheme(getPreferredTheme());
 
-    document.querySelectorAll('[data-bs-theme-value]').forEach(toggle => {
+    document.querySelectorAll('[data-bs-theme-value]').forEach((toggle) => {
       toggle.addEventListener('click', () => {
         const theme = (toggle as HTMLElement).dataset.bsThemeValue ?? 'auto';
         setStoredTheme(theme);

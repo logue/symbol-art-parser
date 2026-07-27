@@ -1,4 +1,4 @@
-import { test, describe, expect } from 'vitest';
+import { describe, expect, test } from '@rstest/core';
 
 import Decompress from '../Decompress';
 import SarParser from '../SarParser';

@@ -1,50 +1,68 @@
 # Symbol Art Parser
 
-[![jsdelivr CDN](https://data.jsdelivr.com/v1/package/npm/symbol-art-parser/badge)](https://www.jsdelivr.com/package/npm/symbol-art-parser)
-[![NPM Downloads](https://img.shields.io/npm/dm/symbol-art-parser.svg?style=flat)](https://www.npmjs.com/package/symbol-art-parser)
-[![Open in unpkg](https://img.shields.io/badge/Open%20in-unpkg-blue)](https://uiwjs.github.io/npm-unpkg/#/pkg/symbol-art-parser/file/README.md)
 [![npm version](https://img.shields.io/npm/v/symbol-art-parser.svg)](https://www.npmjs.com/package/symbol-art-parser)
+[![NPM Downloads](https://img.shields.io/npm/dm/symbol-art-parser.svg?style=flat)](https://www.npmjs.com/package/symbol-art-parser)
+[![jsdelivr CDN](https://data.jsdelivr.com/v1/package/npm/symbol-art-parser/badge)](https://www.jsdelivr.com/package/npm/symbol-art-parser)
+[![Open in unpkg](https://img.shields.io/badge/Open%20in-unpkg-blue)](https://uiwjs.github.io/npm-unpkg/#/pkg/symbol-art-parser/file/README.md)
 [![Open in Gitpod](https://shields.io/badge/Open%20in-Gitpod-green?logo=Gitpod)](https://gitpod.io/#https://github.com/logue/symbol-art-parser)
+[![X Follow](https://img.shields.io/twitter/follow/logue256?style=plastic)](https://twitter.com/logue256)
+[![GitHub Sponsors](https://img.shields.io/github/sponsors/logue?label=Sponsor&logo=github&color=ea4aaa)](https://github.com/sponsors/logue)
 
-TypeScript [Phantasy Star Online 2](https://ngs.pso2.com/)'s Symbol Art Parser Libraly.
+TypeScript implementation for parsing and serializing PSO2: NGS Symbol Art files (.sar).
 
-This library only implements parsing and reading / writing of sar files, and does not include drawing processing.
+This library focuses on SAR file parsing and serialization. It does not include rendering or drawing logic.
 
-## Sample
+## Demo
 
 - <https://logue.dev/symbol-art-parser/>
 
+## Installation
+
+```bash
+pnpm add symbol-art-parser
+```
+
 ## Usage
 
-```js
+```ts
 import SymbolArt from 'symbol-art-parser';
 
 const sar = new SymbolArt();
 
 const reader = new FileReader();
 reader.onload = () => {
-  // Load SymbolArt
-  sar.data = reader.result;
+  sar.data = reader.result as ArrayBuffer;
 };
 reader.readAsArrayBuffer('[*.sar file]');
 
-// Dump Symbol Art to json.
 const json = sar.json;
-
-// Set Symbol Art from json.
 sar.json = json;
-
-// Save SymbolArt as ArrayBuffer
 const data = sar.data;
 ```
 
-## Symbol Art Json Format
+## Data model
 
-See [SymbolArtInterface](src/interfaces/SymbolArtInterface.ts) and [LayerInterface](src/interfaces/LayerInterface.ts).
+The library exposes the following JSON structures:
 
-Or use [JSON Schema](https://json-schema.org/) file.
+- [src/interfaces/SymbolArtInterface.ts](src/interfaces/SymbolArtInterface.ts)
+- [src/interfaces/LayerInterface.ts](src/interfaces/LayerInterface.ts)
+- [schema.json](schema.json)
 
-<https://github.com/logue/symbol-art-parser/blob/master/schema.json>
+## Development
+
+```bash
+pnpm install
+pnpm run build
+pnpm run test
+pnpm run lint
+```
+
+The project uses:
+
+- Rslib for the library build
+- Rsbuild for the demo site
+- Rstest for tests
+- Biome and Rslint for linting
 
 ## Reference
 

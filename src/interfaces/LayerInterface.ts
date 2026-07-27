@@ -1,3 +1,5 @@
+import type { Position } from '@/types/PositionType';
+
 /** Symbol Art Layer Interface */
 export default interface LayerInterface {
   /** Symbol ID */
@@ -5,12 +7,7 @@ export default interface LayerInterface {
   /** Visibility */
   isVisible: boolean;
   /** Symbol Position */
-  position: {
-    topLeft: PositionType;
-    bottomLeft: PositionType;
-    topRight: PositionType;
-    bottomRight: PositionType;
-  };
+  position: Position;
   /** Alpha */
   a: number;
   /** Red */
@@ -25,9 +22,4 @@ export default interface LayerInterface {
   y: number;
   /** Z */
   z: number;
-}
-
-interface PositionType {
-  x: number;
-  y: number;
 }

@@ -224,7 +224,7 @@ export default class Cursor {
       throw new Error(
         `invalid seek to ${
           this.pos + offset
-        } (by ${offset}) on buffer of length ${this.buffer.byteLength}`
+        } (by ${offset}) on buffer of length ${this.buffer.byteLength}`,
       );
     }
     this.pos += offset;

@@ -1,9 +1,27 @@
-import AbstractParser from './AbstractParser';
-
-import type Cursor from './Cursor';
 import type LayerInterface from '@/interfaces/LayerInterface';
 import type RegistryInterface from '@/interfaces/RegistryInterface';
 import type SymbolArtInterface from '@/interfaces/SymbolArtInterface';
+import type { Position } from '@/types/PositionType';
+
+import AbstractParser from './AbstractParser';
+import type Cursor from './Cursor';
+
+interface ParsedProps {
+  visibility: boolean;
+  id: number;
+  colorA: number;
+  colorR: number;
+  colorG: number;
+  colorB: number;
+  colorX: number;
+  colorY: number;
+  colorZ: number;
+}
+
+interface ParsedLayer {
+  points: Position;
+  props: ParsedProps;
+}
 
 /**
  * Sar Parser
@@ -30,12 +48,12 @@ export default class SarParser extends AbstractParser {
         cursor,
         schema: 'u32le',
         registry,
-      });
+      }) as number;
       const val2 = this.parseAttribute({
         cursor,
         schema: 'u32le',
         registry,
-      });
+      }) as number;
 
       const visibility = val1 >> 31 === 0;
       const id = (val1 >> 21) & 1023;
@@ -68,27 +86,27 @@ export default class SarParser extends AbstractParser {
       cursor,
       schema: 'u32le',
       registry,
-    });
+    }) as number;
     const layerCount = this.parseAttribute({
       cursor,
       schema: 'u8',
       registry,
-    });
+    }) as number;
     const sizeHeight = this.parseAttribute({
       cursor,
       schema: 'u8',
       registry,
-    });
+    }) as number;
     const sizeWidth = this.parseAttribute({
       cursor,
       schema: 'u8',
       registry,
-    });
+    }) as number;
     const soundEffect = this.parseAttribute({
       cursor,
       schema: 'u8',
       registry,
-    });
+    }) as number;
     const layers: LayerInterface[] = [];
 
     for (let i = 0; i < layerCount; i++) {
@@ -96,7 +114,7 @@ export default class SarParser extends AbstractParser {
         cursor,
         schema: this.layerSchema,
         registry,
-      });
+      }) as unknown as ParsedLayer;
       layers.push({
         symbol: layer.props.id,
         isVisible: layer.props.visibility,
@@ -120,7 +138,7 @@ export default class SarParser extends AbstractParser {
           cursor,
           schema: 'u16le',
           registry,
-        });
+        }) as number;
         name.push(c);
       } catch (e) {
         console.warn('[SymbolArt.SarParser] Unable parse charactor.', e);

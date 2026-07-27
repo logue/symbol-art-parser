@@ -67,12 +67,12 @@ function handleCopyFlag(readCursor: Cursor): CopyInfo {
 
 function performOptimizedCopy(
   writeCursor: Cursor,
-  { offset, size, isLongCopy }: CopyInfo
+  { offset, size, isLongCopy }: CopyInfo,
 ): void {
   // エラーチェックを前に移動
   if (offset > 0) {
     throw new Error(
-      `[SymbolArt.Decompress] offset > 0 (${offset}) (isLongCopy === ${isLongCopy})`
+      `[SymbolArt.Decompress] offset > 0 (${offset}) (isLongCopy === ${isLongCopy})`,
     );
   }
 

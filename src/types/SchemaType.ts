@@ -1,0 +1,15 @@
+export type SchemaType =
+  | 'u8'
+  | 'u16'
+  | 'u32'
+  | 'u16le'
+  | 'u32le'
+  | 'i8'
+  | 'i16'
+  | 'i32'
+  | 'i16le'
+  | 'i32le'
+  | 'f32'
+  | 'f64'
+  | 'f32le'
+  | 'f64le';

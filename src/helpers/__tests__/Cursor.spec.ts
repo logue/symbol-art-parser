@@ -1,4 +1,4 @@
-import { test, describe, expect } from 'vitest';
+import { describe, expect, test } from '@rstest/core';
 
 import Cursor from '../Cursor';
 
@@ -80,10 +80,10 @@ describe('Cursor', () => {
     test('should read float32', () => {
       const buffer = new ArrayBuffer(4);
       const view = new DataView(buffer);
-      view.setFloat32(0, 3.14159, false);
+      view.setFloat32(0, Math.PI, false);
 
       const cursor = new Cursor(buffer);
-      expect(cursor.readFloat32(false)).toBeCloseTo(3.14159);
+      expect(cursor.readFloat32(false)).toBeCloseTo(Math.PI);
       expect(cursor.getPosition()).toBe(4);
     });
   });

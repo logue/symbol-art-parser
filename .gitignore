@@ -1,7 +1,17 @@
-/.vscode/*
-node_modules
+# Local
 .DS_Store
-dist
-dist-ssr
 *.local
-/docs
+*.log*
+
+# Dist
+node_modules
+dist/
+storybook-static
+docs/
+
+# IDE
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea
+

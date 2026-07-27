@@ -1,6 +1,6 @@
 {
   "$id": "https://github.com/logue/symbol-art-parser/raw/master/schema.json",
-  "$schema": "http://json-schema.org/draft/2020-12/schema",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Symbol Art JSON",
   "description": "Phantasy Star Online 2 Symbol Art Json file schema.",
   "type": "object",
@@ -35,7 +35,10 @@
           "maximum": 193
         }
       },
-      "required": ["height", "width"]
+      "required": [
+        "height",
+        "width"
+      ]
     },
     "layers": {
       "title": "Layer",
@@ -114,7 +117,13 @@
       }
     }
   },
-  "required": ["authorId", "layers", "name", "size", "sound"],
+  "required": [
+    "authorId",
+    "layers",
+    "name",
+    "size",
+    "sound"
+  ],
   "$defs": {
     "position": {
       "title": "Symbol parts drawing position.",
@@ -134,7 +143,12 @@
           "$ref": "#/$defs/axis"
         }
       },
-      "required": ["bottomLeft", "bottomRight", "topLeft", "topRight"]
+      "required": [
+        "bottomLeft",
+        "bottomRight",
+        "topLeft",
+        "topRight"
+      ]
     },
     "axis": {
       "title": "Axis",
@@ -150,7 +164,10 @@
           "type": "integer"
         }
       },
-      "required": ["x", "y"]
+      "required": [
+        "x",
+        "y"
+      ]
     }
   }
 }

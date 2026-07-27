@@ -1,4 +1,4 @@
-import { test, describe, expect, beforeEach } from 'vitest';
+import { beforeEach, describe, expect, test } from '@rstest/core';
 
 import AbstractParser from '../AbstractParser';
 
@@ -48,10 +48,10 @@ describe('AbstractParser', () => {
     test('should parse floating point', () => {
       const buffer = new ArrayBuffer(4);
       const view = new DataView(buffer);
-      view.setFloat32(0, 3.14159, false);
+      view.setFloat32(0, Math.PI, false);
 
       const result = parser.parse(buffer, 'f32');
-      expect(result).toBeCloseTo(3.14159);
+      expect(result).toBeCloseTo(Math.PI);
     });
   });
 
@@ -78,6 +78,13 @@ describe('AbstractParser', () => {
       const buffer = new Uint8Array([255]).buffer;
       const result = parser.parse(buffer, 'u8');
       expect(result).toBe(255);
+    });
+
+    test('should throw on unknown schema reference', () => {
+      const buffer = new Uint8Array([1]).buffer;
+      expect(() => parser.parse(buffer, 'unknown' as never)).toThrow(
+        /unknown schema/i,
+      );
     });
   });
 });

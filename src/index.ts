@@ -1,12 +1,11 @@
-import type SymbolArtInterface from '@/interfaces/SymbolArtInterface';
-
-import Meta from '@/Meta';
 import BaseRegistry from '@/helpers/BaseRegistry';
 import Blowfish from '@/helpers/Blowfish';
 import Cursor from '@/helpers/Cursor';
 import Decompress from '@/helpers/Decompress';
 import SarParser from '@/helpers/SarParser';
-import Sounds from '@/interfaces/SoundType';
+import type SymbolArtInterface from '@/interfaces/SymbolArtInterface';
+import Meta from '@/Meta';
+import Sounds from '@/types/SoundType';
 
 /** SymbolArt Class */
 export default class SymbolArt {
@@ -17,12 +16,16 @@ export default class SymbolArt {
 
   /** Sar file Magic number */
   private static readonly FILE_MAGIC_NUMBER: number[] = Array.from('sar').map(
-    c => c.charCodeAt(0)
+    (c) => c.charCodeAt(0),
   );
 
   /** Decrypt Key */
-  private static readonly BLOWFISH_KEY = Uint8Array.of(0x09, 0x07, 0xc1, 0x2b)
-    .buffer;
+  private static readonly BLOWFISH_KEY = Uint8Array.of(
+    0x09,
+    0x07,
+    0xc1,
+    0x2b,
+  ).buffer;
 
   /** Compressed Flag */
   private static readonly FLAG_COMPRESSED = 0x84;
@@ -49,9 +52,11 @@ export default class SymbolArt {
     /** File Header */
     const header = new ArrayBuffer(4);
     const headerView = new Uint8Array(header);
-    SymbolArt.FILE_MAGIC_NUMBER.forEach(
-      (value, index) => (headerView[index] = value)
-    );
+
+    for (const [index, value] of SymbolArt.FILE_MAGIC_NUMBER.entries()) {
+      headerView[index] = value;
+    }
+
     headerView[3] = SymbolArt.FLAG_NOT_COMPRESSED;
     /** Crypted Data */
     const data = this.browfish.encrypt(this.decrypted);
@@ -95,7 +100,7 @@ export default class SymbolArt {
     if (flag === SymbolArt.FLAG_COMPRESSED) {
       // Byte wise XOR by 0x95 of input from after flag bit
       // to the maximum multiple of 8 bytes on input
-      const xorBuffer = source.map(v => v ^ 0x95);
+      const xorBuffer = source.map((v) => v ^ 0x95);
       this.decrypted = Decompress(xorBuffer.buffer);
     }
   }
@@ -115,7 +120,7 @@ export default class SymbolArt {
   set json(data: SymbolArtInterface) {
     const layerCount = data.layers.length;
     const buffer = new ArrayBuffer(
-      8 + 16 * layerCount + 2 * data.name.length // In Bytes
+      8 + 16 * layerCount + 2 * data.name.length, // In Bytes
     );
     const uint8arr = new Uint8Array(buffer);
 
@@ -129,7 +134,7 @@ export default class SymbolArt {
     uint8arr[pos++] = data.size.width & 0xff;
     uint8arr[pos++] = (Sounds[data.sound] ?? 1) & 0xff;
 
-    data.layers.forEach(layer => {
+    data.layers.forEach((layer) => {
       uint8arr[pos++] = layer.position.topLeft.x & 0xff;
       uint8arr[pos++] = layer.position.topLeft.y & 0xff;
       uint8arr[pos++] = layer.position.bottomLeft.x & 0xff;
@@ -170,7 +175,7 @@ export default class SymbolArt {
    */
   private appendBuffer(
     buffer1: ArrayBuffer,
-    buffer2: ArrayBuffer
+    buffer2: ArrayBuffer,
   ): ArrayBuffer {
     const tmp = new Uint8Array(buffer1.byteLength + buffer2.byteLength);
     tmp.set(new Uint8Array(buffer1), 0);

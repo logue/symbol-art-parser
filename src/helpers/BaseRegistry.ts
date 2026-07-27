@@ -1,5 +1,5 @@
-import type Cursor from './Cursor';
 import type RegistryInterface from '@/interfaces/RegistryInterface';
+import type Cursor from './Cursor';
 
 export default {
   u8: (cursor: Cursor) => cursor.readUint8(),
