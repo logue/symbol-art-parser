@@ -1,2 +1,5 @@
+minimumReleaseAgeStrict: false
 allowBuilds:
   unrs-resolver: true
+minimumReleaseAgeExclude:
+  - '@types/node@26.1.2'

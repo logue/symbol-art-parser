@@ -197,17 +197,17 @@ export default class Blowfish {
   ];
 
   /** P Table */
-  private readonly p: Uint32Array;
+  protected readonly p: Uint32Array;
   /** S Table */
-  private readonly s: Uint32Array[];
+  protected readonly s: Uint32Array[];
   /** Crypt Key */
-  private readonly key: Uint32Array;
+  protected readonly key: Uint32Array;
 
   /**
    * constructor
    * @param key - key as array of bytes. must be multiple of 4
    */
-  constructor(key: ArrayBuffer) {
+  constructor(key: ArrayBufferLike) {
     const keyData = new DataView(key);
     const len = Math.floor(key.byteLength / Uint32Array.BYTES_PER_ELEMENT);
     const realKey = new Uint32Array(len);
@@ -249,7 +249,7 @@ export default class Blowfish {
   /**
    * @param buffer - buffer to encrypt. must be multiple of 8
    */
-  encrypt(buffer: ArrayBuffer): ArrayBuffer {
+  public encrypt(buffer: ArrayBufferLike): ArrayBufferLike {
     const view = new DataView(buffer, 0, Math.floor(buffer.byteLength / 8) * 8);
     for (let i = 0; i < Math.floor(view.byteLength / 8); i++) {
       let l = view.getUint32(i * 8, true);
@@ -271,7 +271,7 @@ export default class Blowfish {
   /**
    * @param buffer - buffer to decrypt. must be multiple of 8
    */
-  decrypt(buffer: ArrayBuffer): ArrayBuffer {
+  public decrypt(buffer: ArrayBufferLike): ArrayBufferLike {
     const view = new DataView(buffer, 0, Math.floor(buffer.byteLength / 8) * 8);
     for (let i = 0; i < Math.floor(view.byteLength / 8); i++) {
       let l = view.getUint32(i * 8, true);

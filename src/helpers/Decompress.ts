@@ -3,7 +3,7 @@ import Cursor from '@/helpers/Cursor';
 /**
  * @param buffer - buffer to decompress
  */
-export default function decompress(buffer: ArrayBuffer): ArrayBuffer {
+export default function decompress(buffer: ArrayBufferLike): ArrayBufferLike {
   const readCursor = new Cursor(buffer);
   const writeCursor = new Cursor();
 

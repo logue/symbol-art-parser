@@ -1,26 +1,14 @@
 {
   "extends": "@tsconfig/node-lts/tsconfig.json",
-  "include": [
-    "env.d.ts",
-    "src/**/*"
-  ],
-  "exclude": [
-    "src/**/__tests__/*"
-  ],
+  "include": ["env.d.ts", "src/**/*"],
+  "exclude": ["src/**/__tests__/*"],
   "compilerOptions": {
     "rootDir": "src",
     "paths": {
-      "@/*": [
-        "./src/*"
-      ]
+      "@/*": ["./src/*"]
     },
-    "lib": [
-      "ESNext"
-    ],
-    "types": [
-      "@rslib/core/types",
-      "node"
-    ],
+    "lib": ["ESNext"],
+    "types": ["@rslib/core/types", "node"],
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.rslib.tsbuildinfo",
     "useDefineForClassFields": true,
     "outDir": "dist",

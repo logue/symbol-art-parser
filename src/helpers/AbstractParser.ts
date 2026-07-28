@@ -1,13 +1,7 @@
 import type RegistryInterface from '@/interfaces/RegistryInterface';
-import type { SchemaType } from '@/types/SchemaType';
+import type { ParsedValue, SchemaNode } from '@/types/ParserType';
 import BaseRegistry from './BaseRegistry';
 import Cursor from './Cursor';
-
-type ParsedValue = number | string | boolean | Record<string, unknown>;
-type SchemaNode =
-  | SchemaType
-  | Record<string, unknown>
-  | ((cursor: Cursor, registry: RegistryInterface) => ParsedValue);
 
 /**
  * Abstract Parser.
@@ -28,7 +22,7 @@ export default abstract class AbstractParser {
   parse(
     buffer: ArrayBuffer,
     schema: SchemaNode,
-    registries: RegistryInterface[] = [],
+    registries: Partial<RegistryInterface>[] = [],
   ): ParsedValue {
     const cursor = new Cursor(buffer);
 
@@ -44,7 +38,7 @@ export default abstract class AbstractParser {
    * Goes through a schema object and fill its data in order based on cursor and registry
    * @param payload - attributes to parse
    */
-  parseAttribute({
+  public parseAttribute({
     cursor,
     schema,
     registry,
@@ -60,7 +54,7 @@ export default abstract class AbstractParser {
           BaseRegistry[schema as keyof RegistryInterface];
 
         if (typeof registryValue !== 'function') {
-          throw new Error(`Unknown schema: ${schema}`);
+          throw new TypeError(`[SymbolArtParser] Unknown schema: ${schema}`);
         }
 
         return this.parseAttribute({
@@ -74,7 +68,7 @@ export default abstract class AbstractParser {
       }
       case 'object': {
         if (schema === null) {
-          throw new Error('Invalid schema: null');
+          throw new TypeError('[SymbolArtParser] Invalid schema: null');
         }
 
         const parsedObject: Record<string, ParsedValue> = {};
@@ -90,7 +84,9 @@ export default abstract class AbstractParser {
         return parsedObject;
       }
       default: {
-        throw new Error(`Unsupported schema type: ${typeof schema}`);
+        throw new TypeError(
+          `[SymbolArtParser] Unsupported schema type: ${typeof schema}`,
+        );
       }
     }
   }

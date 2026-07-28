@@ -18,7 +18,7 @@ export default defineConfig({
     filenameHash: true,
   },
   html: {
-    template : './index.html'
+    template: './index.html',
   },
   source: {
     tsconfigPath: './tsconfig.rsbuild.json',
@@ -28,7 +28,7 @@ export default defineConfig({
       __BUILD_DATE__: JSON.stringify(buildDate),
     },
     entry: {
-      index: './src-docs/index.ts'
+      index: './src-docs/index.ts',
     },
   },
 });

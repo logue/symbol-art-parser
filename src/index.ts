@@ -20,7 +20,7 @@ export default class SymbolArt {
   );
 
   /** Decrypt Key */
-  private static readonly BLOWFISH_KEY = Uint8Array.of(
+  private static readonly BLOWFISH_KEY: ArrayBuffer = Uint8Array.of(
     0x09,
     0x07,
     0xc1,
@@ -28,14 +28,14 @@ export default class SymbolArt {
   ).buffer;
 
   /** Compressed Flag */
-  private static readonly FLAG_COMPRESSED = 0x84;
+  private static readonly FLAG_COMPRESSED: number = 0x84;
   /** Uncompressed Flag */
-  private static readonly FLAG_NOT_COMPRESSED = 0x04;
+  private static readonly FLAG_NOT_COMPRESSED: number = 0x04;
 
   /** Cryptor */
   private readonly browfish: Blowfish;
   /** Decrypted Data */
-  private decrypted: ArrayBuffer;
+  private decrypted: ArrayBufferLike;
 
   /**
    * Constructor
@@ -48,7 +48,7 @@ export default class SymbolArt {
   /**
    * Get SymbolArt Data
    */
-  get data(): ArrayBuffer {
+  public get data(): ArrayBufferLike {
     /** File Header */
     const header = new ArrayBuffer(4);
     const headerView = new Uint8Array(header);
@@ -69,7 +69,7 @@ export default class SymbolArt {
    *
    * @param buffer - Synbolart(*.sar) File array buffer.
    */
-  set data(buffer: ArrayBuffer) {
+  public set data(buffer: ArrayBufferLike) {
     /** binary */
     const u8a = new Uint8Array(buffer);
 
@@ -106,7 +106,7 @@ export default class SymbolArt {
   }
 
   /** Get JSON Parsed SymbolArt Data */
-  get json(): SymbolArtInterface {
+  public get json(): SymbolArtInterface {
     const sar = new SarParser();
     const registry = { ...BaseRegistry };
     return sar.parseSar(new Cursor(this.decrypted), registry);
@@ -117,7 +117,7 @@ export default class SymbolArt {
    *
    * @param data - Symbol Art JSON data
    */
-  set json(data: SymbolArtInterface) {
+  public set json(data: SymbolArtInterface) {
     const layerCount = data.layers.length;
     const buffer = new ArrayBuffer(
       8 + 16 * layerCount + 2 * data.name.length, // In Bytes
@@ -174,9 +174,9 @@ export default class SymbolArt {
    * @param  buffer2 - The second buffer.
    */
   private appendBuffer(
-    buffer1: ArrayBuffer,
-    buffer2: ArrayBuffer,
-  ): ArrayBuffer {
+    buffer1: ArrayBufferLike,
+    buffer2: ArrayBufferLike,
+  ): ArrayBufferLike {
     const tmp = new Uint8Array(buffer1.byteLength + buffer2.byteLength);
     tmp.set(new Uint8Array(buffer1), 0);
     tmp.set(new Uint8Array(buffer2), buffer1.byteLength);

@@ -1,4 +1,4 @@
-export type XY = { x: number; y: number };
+type XY = { x: number; y: number };
 
 export type Position = {
   topLeft: XY;
