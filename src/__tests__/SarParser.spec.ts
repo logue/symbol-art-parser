@@ -1,8 +1,9 @@
 import { describe, expect, test } from '@rstest/core';
-import type RegistryInterface from '../../interfaces/RegistryInterface';
-import type { SchemaType } from '../../interfaces/RegistryInterface';
-import Cursor from '../Cursor';
-import SarParser from '../SarParser';
+
+import Cursor from '../helpers/Cursor';
+import SarParser from '../helpers/SarParser';
+import type { Registry } from '../types/Registry';
+import type { Schema } from '../types/Schema';
 
 const parser = new SarParser();
 /**
@@ -13,10 +14,10 @@ const parser = new SarParser();
  * @param registries - Registry array
  */
 function doTest(
-  schema: SchemaType | Record<string, SchemaType | Record<string, unknown>>,
+  schema: Schema | Record<string, Schema | Record<string, unknown>>,
   array: number[],
   expected: number | Record<string, unknown>,
-  registries: RegistryInterface[] = [],
+  registries: Partial<Registry>[] = [],
 ): void {
   test(`schema ${schema} parses buffer to ${expected}`, () => {
     const buf = Uint8Array.from(array);

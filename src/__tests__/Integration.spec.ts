@@ -1,7 +1,7 @@
 import { describe, expect, test } from '@rstest/core';
 
-import Decompress from '../Decompress';
-import SarParser from '../SarParser';
+import Decompress from '../helpers/Decompress';
+import SarParser from '../helpers/SarParser';
 
 describe('Integration Tests', () => {
   describe('Decompress + SarParser', () => {

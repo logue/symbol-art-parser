@@ -1,5 +1,3 @@
-minimumReleaseAgeStrict: false
-allowBuilds:
-  unrs-resolver: true
-minimumReleaseAgeExclude:
-  - '@types/node@26.1.2'
+# Do not enforce minimum release age for dependencies.
+# Version selection is delegated to package.json constraints.
+minimumReleaseAge: 0

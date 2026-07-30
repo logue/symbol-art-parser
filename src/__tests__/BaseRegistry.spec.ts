@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, test } from '@rstest/core';
 
-import BaseRegistry from '../BaseRegistry';
-import Cursor from '../Cursor';
+import BaseRegistry from '../helpers/BaseRegistry';
+import Cursor from '../helpers/Cursor';
 
 describe('BaseRegistry', () => {
   let cursor: Cursor;

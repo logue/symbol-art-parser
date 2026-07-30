@@ -1,7 +1,8 @@
-import type LayerInterface from '@/interfaces/LayerInterface';
-import type { SoundType } from '@/types/SoundType';
+import type { Layer } from '@/types/Layer';
+import type { Sound } from '@/types/Sound';
 
-export default interface SymbolArtInterface {
+/** Symbol Art JSON data */
+export type SymbolArtData = {
   /** Account ID */
   authorId: number;
   /** Symbol art name */
@@ -14,7 +15,7 @@ export default interface SymbolArtInterface {
     width: number;
   };
   /** Effect Sound ID */
-  sound: SoundType;
+  sound: Sound;
   /** Layers */
-  layers: LayerInterface[];
-}
+  layers: Layer[];
+};

@@ -10,21 +10,21 @@
 [![X Follow](https://img.shields.io/twitter/follow/logue256?style=plastic)](https://twitter.com/logue256)
 [![GitHub Sponsors](https://img.shields.io/github/sponsors/logue?label=Sponsor&logo=github&color=ea4aaa)](https://github.com/sponsors/logue)
 
-TypeScript implementation for parsing and serializing PSO2: NGS Symbol Art files (.sar).
+PSO2: NGS のシンボルアートファイル（.sar）を解析・書き出しするための TypeScript 実装です。
 
-This library focuses on SAR file parsing and serialization. It does not include rendering or drawing logic.
+このライブラリは SAR ファイルの解析とシリアライズのみを対象としており、描画・レンダリング機能は含まれません。
 
-## Demo
+## デモ
 
 - <https://logue.dev/symbol-art-parser/>
 
-## Installation
+## インストール
 
 ```bash
 pnpm add symbol-art-parser
 ```
 
-## Usage
+## 使い方
 
 ```ts
 import SymbolArt from "symbol-art-parser";
@@ -42,15 +42,15 @@ sar.json = json;
 const data = sar.data;
 ```
 
-## Data model
+## データモデル
 
-The library exposes the following JSON structures:
+本ライブラリが公開する JSON 構造は以下の通りです。
 
 - [src/types/SymbolArtData.ts](src/types/SymbolArtData.ts)
 - [src/types/Layer.ts](src/types/Layer.ts)
 - [schema.json](schema.json)
 
-## Development
+## 開発
 
 ```bash
 pnpm install
@@ -59,22 +59,22 @@ pnpm run test
 pnpm run lint
 ```
 
-The project uses:
+このプロジェクトでは以下を使用しています。
 
-- Rslib for the library build
-- Rsbuild for the demo site
-- Rstest for tests
-- Biome and Rslint for linting
+- Rslib（ライブラリのビルド）
+- Rsbuild（デモサイトのビルド）
+- Rstest（テスト）
+- Biome と Rslint（リンティング）
 
-## Reference
+## 参考
 
-- [saredit](https://github.com/HybridEidolon/saredit) - The processing referred to this program.
+- [saredit](https://github.com/HybridEidolon/saredit) - 本プログラムの処理はこちらを参考にしています。
 - [PSO2NGSのシンボルアートをパースするライブラリ「Symbol Art Parser」の技術仕様書](https://qiita.com/logue/items/77b25ea2fdd713c64c2c)
 
-## License
+## ライセンス
 
 [MIT](LICENSE)
 
 &copy; 2022-2026 By Logue.
 
-All rights to the copyrighted works (images, data, audios, texts, etc.) used in ["PSO2: NGS"](https://ngs.pso2.com/) are owned by [SEGA Corporation](https://sega.com/) or its licensors.
+["PSO2: NGS"](https://ngs.pso2.com/) にて使用されている著作物（画像・データ・音声・テキスト等）の権利は、[株式会社セガ](https://sega.com/)またはそのライセンサーに帰属します。

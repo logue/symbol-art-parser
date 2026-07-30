@@ -26,11 +26,11 @@ export default function decompress(buffer: ArrayBufferLike): ArrayBufferLike {
 }
 
 // より効率的な構造体を使用
-interface CopyInfo {
+type CopyInfo = {
   readonly offset: number;
   readonly size: number;
   readonly isLongCopy: boolean;
-}
+};
 
 function handleCopyFlag(readCursor: Cursor): CopyInfo {
   const flag = readCursor.readBit();

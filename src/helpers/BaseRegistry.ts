@@ -1,4 +1,4 @@
-import type RegistryInterface from '@/interfaces/RegistryInterface';
+import type { Registry } from '@/types/Registry';
 import type Cursor from './Cursor';
 
 export default {
@@ -16,4 +16,4 @@ export default {
   f64: (cursor: Cursor) => cursor.readFloat64(false),
   f32le: (cursor: Cursor) => cursor.readFloat32(true),
   f64le: (cursor: Cursor) => cursor.readFloat64(true),
-} satisfies Partial<RegistryInterface>;
+} satisfies Partial<Registry>;

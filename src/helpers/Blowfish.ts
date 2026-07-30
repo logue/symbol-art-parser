@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Blowfish Cryptor class
  *

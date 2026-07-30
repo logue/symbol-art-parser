@@ -1,5 +1,5 @@
 import { describe, expect, test } from '@rstest/core';
-import Blowfish from '../Blowfish';
+import Blowfish from '../helpers/Blowfish';
 
 class BlowfishContext extends Blowfish {
   public getPTable(pointer: number) {

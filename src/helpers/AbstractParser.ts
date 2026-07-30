@@ -1,5 +1,5 @@
-import type RegistryInterface from '@/interfaces/RegistryInterface';
-import type { ParsedValue, SchemaNode } from '@/types/ParserType';
+import type { ParsedValue, SchemaNode } from '@/types/Parser';
+import type { Registry } from '@/types/Registry';
 import BaseRegistry from './BaseRegistry';
 import Cursor from './Cursor';
 
@@ -22,13 +22,13 @@ export default abstract class AbstractParser {
   parse(
     buffer: ArrayBuffer,
     schema: SchemaNode,
-    registries: Partial<RegistryInterface>[] = [],
+    registries: Partial<Registry>[] = [],
   ): ParsedValue {
     const cursor = new Cursor(buffer);
 
-    const registry = [BaseRegistry, ...registries].reduce<RegistryInterface>(
+    const registry = [BaseRegistry, ...registries].reduce<Registry>(
       (accumulator, value) => Object.assign(accumulator, value),
-      {} as RegistryInterface,
+      {} as Registry,
     );
 
     return this.parseAttribute({ cursor, schema, registry });
@@ -45,13 +45,13 @@ export default abstract class AbstractParser {
   }: {
     cursor: Cursor;
     schema: SchemaNode;
-    registry: RegistryInterface;
+    registry: Partial<Registry>;
   }): ParsedValue {
     switch (typeof schema) {
       case 'string': {
         const registryValue =
-          registry[schema as keyof RegistryInterface] ??
-          BaseRegistry[schema as keyof RegistryInterface];
+          registry[schema as keyof Registry] ??
+          BaseRegistry[schema as keyof Registry];
 
         if (typeof registryValue !== 'function') {
           throw new TypeError(`[SymbolArtParser] Unknown schema: ${schema}`);

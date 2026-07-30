@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, test } from '@rstest/core';
 
-import AbstractParser from '../AbstractParser';
+import AbstractParser from '../helpers/AbstractParser';
 
 // テスト用の具象クラス
 class TestParser extends AbstractParser {

@@ -1,6 +1,6 @@
 import { describe, expect, test } from '@rstest/core';
 
-import Decompress from '../Decompress';
+import Decompress from '../helpers/Decompress';
 
 describe('Decompressor', () => {
   test('decompress a simple prs correctly', () => {

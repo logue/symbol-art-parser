@@ -1,5 +1,7 @@
-name: NodeJS with Vite
-
+name: Build Docs
+permissions:
+  contents: read
+  pull-requests: write
 on:
   push:
     branches: ['master']
@@ -12,7 +14,7 @@ jobs:
 
     steps:
       - name: Checkout  ✔
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - uses: pnpm/action-setup@v6
         name: Install pnpm 📦
@@ -23,6 +25,7 @@ jobs:
         uses: actions/setup-node@v6
         with:
           cache: 'pnpm'
+          node-version: 24
 
       - name: Build 🔧
         run: |

@@ -1,7 +1,7 @@
-import type { Position } from '@/types/PositionType';
+import type { Position } from '@/types/Position';
 
-/** Symbol Art Layer Interface */
-export default interface LayerInterface {
+/** Symbol Art Layer */
+export type Layer = {
   /** Symbol ID */
   symbol: number;
   /** Visibility */
@@ -22,4 +22,4 @@ export default interface LayerInterface {
   y: number;
   /** Z */
   z: number;
-}
+};

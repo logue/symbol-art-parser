@@ -1,12 +1,12 @@
-import type LayerInterface from '@/interfaces/LayerInterface';
-import type RegistryInterface from '@/interfaces/RegistryInterface';
-import type SymbolArtInterface from '@/interfaces/SymbolArtInterface';
-import type { Position } from '@/types/PositionType';
+import type { Layer } from '@/types/Layer';
+import type { Position } from '@/types/Position';
+import type { Registry } from '@/types/Registry';
+import type { SymbolArtData } from '@/types/SymbolArtData';
 
 import AbstractParser from './AbstractParser';
 import type Cursor from './Cursor';
 
-interface ParsedProps {
+type ParsedProps = {
   visibility: boolean;
   id: number;
   colorA: number;
@@ -16,12 +16,12 @@ interface ParsedProps {
   colorX: number;
   colorY: number;
   colorZ: number;
-}
+};
 
-interface ParsedLayer {
+type ParsedLayer = {
   points: Position;
   props: ParsedProps;
-}
+};
 
 /**
  * Sar Parser
@@ -43,7 +43,7 @@ export default class SarParser extends AbstractParser {
       topRight: this.pointSchema,
       bottomRight: this.pointSchema,
     },
-    props: (cursor: Cursor, registry: RegistryInterface) => {
+    props: (cursor: Cursor, registry: Registry) => {
       const val1 = this.parseAttribute({
         cursor,
         schema: 'u32le',
@@ -81,7 +81,7 @@ export default class SarParser extends AbstractParser {
   };
 
   /** Sar file Schema. */
-  parseSar(cursor: Cursor, registry: RegistryInterface): SymbolArtInterface {
+  parseSar(cursor: Cursor, registry: Registry): SymbolArtData {
     const authorId = this.parseAttribute({
       cursor,
       schema: 'u32le',
@@ -107,7 +107,7 @@ export default class SarParser extends AbstractParser {
       schema: 'u8',
       registry,
     }) as number;
-    const layers: LayerInterface[] = [];
+    const layers: Layer[] = [];
 
     for (let i = 0; i < layerCount; i++) {
       const layer = this.parseAttribute({

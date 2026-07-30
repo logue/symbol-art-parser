@@ -3,9 +3,9 @@ import Blowfish from '@/helpers/Blowfish';
 import Cursor from '@/helpers/Cursor';
 import Decompress from '@/helpers/Decompress';
 import SarParser from '@/helpers/SarParser';
-import type SymbolArtInterface from '@/interfaces/SymbolArtInterface';
-import Meta from '@/Meta';
-import Sounds from '@/types/SoundType';
+import { Meta } from '@/types/Meta';
+import { Sound } from '@/types/Sound';
+import type { SymbolArtData } from '@/types/SymbolArtData';
 
 /** SymbolArt Class */
 export default class SymbolArt {
@@ -106,7 +106,7 @@ export default class SymbolArt {
   }
 
   /** Get JSON Parsed SymbolArt Data */
-  public get json(): SymbolArtInterface {
+  public get json(): SymbolArtData {
     const sar = new SarParser();
     const registry = { ...BaseRegistry };
     return sar.parseSar(new Cursor(this.decrypted), registry);
@@ -117,7 +117,7 @@ export default class SymbolArt {
    *
    * @param data - Symbol Art JSON data
    */
-  public set json(data: SymbolArtInterface) {
+  public set json(data: SymbolArtData) {
     const layerCount = data.layers.length;
     const buffer = new ArrayBuffer(
       8 + 16 * layerCount + 2 * data.name.length, // In Bytes
@@ -132,7 +132,7 @@ export default class SymbolArt {
     uint8arr[pos++] = layerCount & 0xff;
     uint8arr[pos++] = data.size.height & 0xff;
     uint8arr[pos++] = data.size.width & 0xff;
-    uint8arr[pos++] = (Sounds[data.sound] ?? 1) & 0xff;
+    uint8arr[pos++] = (Sound[data.sound] ?? 1) & 0xff;
 
     data.layers.forEach((layer) => {
       uint8arr[pos++] = layer.position.topLeft.x & 0xff;

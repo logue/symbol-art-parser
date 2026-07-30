@@ -1,7 +1,7 @@
 import type Cursor from '@/helpers/Cursor';
 
-/** RegistryInterface */
-export default interface RegistryInterface {
+/** Schema value reader registry */
+export type Registry = {
   /** unsigned int8 */
   u8: (cursor: Cursor) => number;
   /** unsigned int16 */
@@ -30,4 +30,4 @@ export default interface RegistryInterface {
   f32le: (cursor: Cursor) => number;
   /** float64 little endian */
   f64le: (cursor: Cursor) => number;
-}
+};

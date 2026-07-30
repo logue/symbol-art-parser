@@ -1,4 +1,4 @@
-export type SchemaType =
+export type Schema =
   | 'u8'
   | 'u16'
   | 'u32'

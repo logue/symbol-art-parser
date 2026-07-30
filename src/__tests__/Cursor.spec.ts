@@ -1,6 +1,6 @@
 import { describe, expect, test } from '@rstest/core';
 
-import Cursor from '../Cursor';
+import Cursor from '../helpers/Cursor';
 
 describe('Cursor', () => {
   test('should initialize with default buffer', () => {

@@ -219,7 +219,7 @@ export default class Cursor {
    * Seek pointer
    * @param offset - offset bytes
    */
-  private seek(offset: number): void {
+  public seek(offset: number): void {
     if (this.pos + offset > this.buffer.byteLength || this.pos + offset < 0) {
       throw new Error(
         `invalid seek to ${
